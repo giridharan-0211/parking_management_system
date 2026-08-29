@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Parking Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+    <!-- Main Application Container -->
+    <div class="app-container">
+
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+
+                <h2>Parking System</h2>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="menu-item active">
+                    Dashboard
+                </a>
+
+                <a href="vehicles.html" class="menu-item">
+                    Vehicles
+                </a>
+
+                <a href="slots.html" class="menu-item">
+                    Parking Slots
+                </a>
+
+                <a href="entry-exit.html" class="menu-item">
+                    Entry / Exit
+                </a>
+
+                <a href="history.html" class="menu-item">
+                    Parking History
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <a href="../index.html" class="logout-button">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+
+            <!-- Header -->
+            <header class="top-header">
+
+                <div>
+
+                    <h1>Dashboard</h1>
+
+                    <p>Parking management overview</p>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <span>Admin</span>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- Dashboard Content -->
+            <section class="dashboard-content">
+
+
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+
+
+                    <!-- Total Slots -->
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <p>Total Parking Slots</p>
+
+                            <h2 id="totalSlots">100</h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Available Slots -->
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <p>Available Slots</p>
+
+                            <h2 id="availableSlots">70</h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Occupied Slots -->
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <p>Occupied Slots</p>
+
+                            <h2 id="occupiedSlots">30</h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Currently Parked -->
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <p>Currently Parked</p>
+
+                            <h2 id="parkedVehicles">30</h2>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- Recent Activity -->
+                <div class="dashboard-section">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Recent Parking Activity</h2>
+
+                            <p>Latest vehicle entry and exit activity</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Vehicle Number</th>
+
+                                    <th>Vehicle Type</th>
+
+                                    <th>Parking Slot</th>
+
+                                    <th>Entry Time</th>
+
+                                    <th>Exit Time</th>
+
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>TN29AB1234</td>
+
+                                    <td>Car</td>
+
+                                    <td>A-01</td>
+
+                                    <td>10:30 AM</td>
+
+                                    <td>-</td>
+
+                                    <td>
+                                        <span class="status-badge occupied">
+                                            Parked
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>TN38CD5678</td>
+
+                                    <td>Bike</td>
+
+                                    <td>B-02</td>
+
+                                    <td>10:45 AM</td>
+
+                                    <td>-</td>
+
+                                    <td>
+                                        <span class="status-badge occupied">
+                                            Parked
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>TN29EF9012</td>
+
+                                    <td>Car</td>
+
+                                    <td>C-05</td>
+
+                                    <td>08:30 AM</td>
+
+                                    <td>10:15 AM</td>
+
+                                    <td>
+                                        <span class="status-badge available">
+                                            Exited
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>
