@@ -6,6 +6,7 @@ from app.models import User, Vehicle, ParkingSlot, ParkingRecord
 
 from app.routers.vehicle import router as vehicle_router
 from app.routers.parking_slot import router as parking_slot_router
+from app.routers.parking_record import router as parking_router
 
 
 app = FastAPI(
@@ -20,6 +21,9 @@ app.include_router(vehicle_router)
 
 # Include Parking Slot APIs
 app.include_router(parking_slot_router)
+
+# Include Parking APIs
+app.include_router(parking_router)
 
 
 @app.get("/")
