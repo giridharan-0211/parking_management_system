@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicles - Parking Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+                <h2>Parking System</h2>
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="menu-item">
+                    Dashboard
+                </a>
+
+                <a href="vehicles.html" class="menu-item active">
+                    Vehicles
+                </a>
+
+                <a href="slots.html" class="menu-item">
+                    Parking Slots
+                </a>
+
+                <a href="entry-exit.html" class="menu-item">
+                    Entry / Exit
+                </a>
+
+                <a href="history.html" class="menu-item">
+                    Parking History
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <a href="../index.html" class="logout-button">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Header -->
+            <header class="top-header">
+
+                <div>
+
+                    <h1>Vehicles</h1>
+
+                    <p>Manage registered vehicles</p>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <span>Admin</span>
+
+                </div>
+
+            </header>
+
+
+            <!-- Vehicle Content -->
+            <section class="dashboard-content">
+
+
+                <!-- Add Vehicle -->
+                <div class="dashboard-section">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Add Vehicle</h2>
+
+                            <p>Register a new vehicle</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form id="vehicleForm">
+
+                        <div class="form-grid">
+
+
+                            <!-- Vehicle Number -->
+                            <div class="form-group">
+
+                                <label for="vehicleNumber">
+                                    Vehicle Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="vehicleNumber"
+                                    placeholder="TN29AB1234"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Vehicle Type -->
+                            <div class="form-group">
+
+                                <label for="vehicleType">
+                                    Vehicle Type
+                                </label>
+
+                                <select id="vehicleType" required>
+
+                                    <option value="">
+                                        Select Vehicle Type
+                                    </option>
+
+                                    <option value="Car">
+                                        Car
+                                    </option>
+
+                                    <option value="Bike">
+                                        Bike
+                                    </option>
+
+                                    <option value="Van">
+                                        Van
+                                    </option>
+
+                                    <option value="Truck">
+                                        Truck
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- Owner Name -->
+                            <div class="form-group">
+
+                                <label for="ownerName">
+                                    Owner Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="ownerName"
+                                    placeholder="Enter owner name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Contact Number -->
+                            <div class="form-group">
+
+                                <label for="contactNumber">
+                                    Contact Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="contactNumber"
+                                    placeholder="9876543210"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Add Vehicle
+                        </button>
+
+
+                        <p id="vehicleMessage"></p>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Vehicle List -->
+                <div class="dashboard-section">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Registered Vehicles</h2>
+
+                            <p>Vehicles stored in the system</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+
+                                    <th>Vehicle Number</th>
+
+                                    <th>Vehicle Type</th>
+
+                                    <th>Owner Name</th>
+
+                                    <th>Contact Number</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="vehicleTableBody">
+
+                                <tr>
+
+                                    <td
+                                        colspan="6"
+                                        style="text-align: center;"
+                                    >
+                                        Loading vehicles...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+    <script src="../js/vehicles.js"></script>
+
+</body>
+
+</html>
