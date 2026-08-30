@@ -1,3 +1,5 @@
+// LOGIN FUNCTIONALITY -----------------------------------
+
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener("submit", function (event) {
@@ -33,3 +35,41 @@ loginForm.addEventListener("submit", function (event) {
     }
 
 });
+
+
+// PARKING DATA -----------------------------------
+
+
+const parkingSlots = [
+    { slotNumber: "A-01", status: "occupied" },
+    { slotNumber: "A-02", status: "available" },
+    { slotNumber: "A-03", status: "occupied" },
+    { slotNumber: "A-04", status: "available" },
+    { slotNumber: "B-01", status: "available" },
+    { slotNumber: "B-02", status: "occupied" },
+    { slotNumber: "B-03", status: "available" },
+    { slotNumber: "B-04", status: "available" }
+];
+
+function updateDashboardStats() {
+
+    const totalSlots = parkingSlots.length;
+
+    const occupiedSlots = parkingSlots.filter(
+        slot => slot.status === "occupied"
+    ).length;
+
+    const availableSlots = parkingSlots.filter(
+        slot => slot.status === "available"
+    ).length;
+
+
+    document.getElementById("totalSlots").textContent = totalSlots;
+
+    document.getElementById("occupiedSlots").textContent = occupiedSlots;
+
+    document.getElementById("availableSlots").textContent = availableSlots;
+
+    document.getElementById("parkedVehicles").textContent = occupiedSlots;
+}
+updateDashboardStats();
