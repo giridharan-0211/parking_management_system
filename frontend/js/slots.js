@@ -1,13 +1,11 @@
-// =====================================================
 // PARKING SLOTS PAGE
-// =====================================================
+
 
 const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
 
 
-// =====================================================
 // LOAD PARKING SLOTS
-// =====================================================
+
 
 async function loadParkingSlots() {
 
@@ -180,10 +178,8 @@ async function loadParkingSlots() {
 }
 
 
-
-// =====================================================
 // ADD PARKING SLOT
-// =====================================================
+
 
 const slotForm =
     document.getElementById("slotForm");
@@ -345,9 +341,9 @@ if (slotForm) {
 
 
 
-// =====================================================
+
 // DELETE PARKING SLOT
-// =====================================================
+
 
 async function deleteParkingSlot(slotId) {
 
@@ -421,8 +417,7 @@ async function deleteParkingSlot(slotId) {
 
 
 
-// =====================================================
+
 // LOAD SLOTS WHEN PAGE OPENS
-// =====================================================
 
 loadParkingSlots();

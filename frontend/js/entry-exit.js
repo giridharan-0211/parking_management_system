@@ -1,6 +1,5 @@
-// =====================================================
 // API URLS
-// =====================================================
+
 
 const VEHICLES_API =
     "http://127.0.0.1:8000/vehicles/";
@@ -18,9 +17,9 @@ const RECORDS_API =
     "http://127.0.0.1:8000/parking/records";
 
 
-// =====================================================
+
 // ELEMENTS
-// =====================================================
+
 
 const entryVehicle =
     document.getElementById("entryVehicle");
@@ -47,9 +46,9 @@ const currentParkingBody =
     document.getElementById("currentParkingBody");
 
 
-// =====================================================
+
 // LOAD VEHICLES
-// =====================================================
+
 
 async function loadVehicles() {
 
@@ -122,9 +121,9 @@ async function loadVehicles() {
 }
 
 
-// =====================================================
+
 // LOAD AVAILABLE PARKING SLOTS
-// =====================================================
+
 
 async function loadAvailableSlots() {
 
@@ -189,9 +188,9 @@ async function loadAvailableSlots() {
 }
 
 
-// =====================================================
+
 // LOAD PARKING RECORDS
-// =====================================================
+
 
 async function loadParkingRecords() {
 
@@ -331,9 +330,9 @@ async function loadParkingRecords() {
 }
 
 
-// =====================================================
+
 // UPDATE EXIT VEHICLE DROPDOWN
-// =====================================================
+
 
 function updateExitVehicleDropdown(
     activeRecords
@@ -368,9 +367,8 @@ function updateExitVehicleDropdown(
 }
 
 
-// =====================================================
 // VEHICLE ENTRY
-// =====================================================
+
 
 entryForm.addEventListener(
     "submit",
@@ -474,9 +472,9 @@ entryForm.addEventListener(
 );
 
 
-// =====================================================
+
 // VEHICLE EXIT
-// =====================================================
+
 
 exitForm.addEventListener(
     "submit",
@@ -574,9 +572,9 @@ exitForm.addEventListener(
 );
 
 
-// =====================================================
+
 // FORMAT DATE / TIME
-// =====================================================
+
 
 function formatDateTime(
     dateTime
@@ -598,9 +596,9 @@ function formatDateTime(
 }
 
 
-// =====================================================
+
 // INITIAL LOAD
-// =====================================================
+
 
 async function initializePage() {
 

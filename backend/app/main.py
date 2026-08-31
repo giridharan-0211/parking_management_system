@@ -17,6 +17,7 @@ app = FastAPI(
 
 
 # Include Vehicle APIs
+
 app.include_router(vehicle_router)
 
 # Include Parking Slot APIs

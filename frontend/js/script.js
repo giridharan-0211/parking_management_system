@@ -1,13 +1,12 @@
-// =====================================================
 // PARKING MANAGEMENT SYSTEM - FRONTEND JAVASCRIPT
-// =====================================================
+
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
 
-// =====================================================
+
 // LOGIN FUNCTIONALITY
-// =====================================================
+
 
 const loginForm = document.getElementById("loginForm");
 
@@ -52,9 +51,9 @@ if (loginForm) {
 }
 
 
-// =====================================================
+
 // DASHBOARD - PARKING SLOT STATISTICS
-// =====================================================
+
 
 async function updateDashboardStats() {
 
@@ -142,9 +141,9 @@ async function updateDashboardStats() {
 }
 
 
-// =====================================================
+
 // DASHBOARD - RECENT PARKING ACTIVITY
-// =====================================================
+
 
 async function loadRecentParkingActivity() {
 
@@ -299,9 +298,9 @@ async function loadRecentParkingActivity() {
 }
 
 
-// =====================================================
+
 // FORMAT DATE AND TIME
-// =====================================================
+
 
 function formatDateTime(dateTime) {
 
