@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entry / Exit - Parking Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+
+                <h2>Parking System</h2>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="menu-item">
+                    Dashboard
+                </a>
+
+                <a href="vehicles.html" class="menu-item">
+                    Vehicles
+                </a>
+
+                <a href="slots.html" class="menu-item">
+                    Parking Slots
+                </a>
+
+                <a href="entry-exit.html" class="menu-item active">
+                    Entry / Exit
+                </a>
+
+                <a href="history.html" class="menu-item">
+                    Parking History
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <a href="../index.html" class="logout-button">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main-content">
+
+
+            <!-- HEADER -->
+
+            <header class="top-header">
+
+                <div>
+
+                    <h1>Entry / Exit</h1>
+
+                    <p>
+                        Manage vehicle parking entry and exit
+                    </p>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <span>Admin</span>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- ================= CONTENT ================= -->
+
+            <section class="dashboard-content">
+
+
+                <!-- ================= VEHICLE ENTRY ================= -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Vehicle Entry</h2>
+
+                            <p>
+                                Assign a vehicle to an available parking slot
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form id="entryForm">
+
+
+                        <div class="form-grid">
+
+
+                            <!-- VEHICLE -->
+
+                            <div class="form-group">
+
+                                <label for="entryVehicle">
+
+                                    Vehicle
+
+                                </label>
+
+
+                                <select
+                                    id="entryVehicle"
+                                    required
+                                >
+
+                                    <option value="">
+
+                                        Select Vehicle
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- SLOT -->
+
+                            <div class="form-group">
+
+                                <label for="entrySlot">
+
+                                    Parking Slot
+
+                                </label>
+
+
+                                <select
+                                    id="entrySlot"
+                                    required
+                                >
+
+                                    <option value="">
+
+                                        Select Available Slot
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+
+                            Record Entry
+
+                        </button>
+
+
+                        <p id="entryMessage"></p>
+
+
+                    </form>
+
+
+                </div>
+
+
+
+                <!-- ================= VEHICLE EXIT ================= -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Vehicle Exit</h2>
+
+                            <p>
+                                Record the exit of a currently parked vehicle
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form id="exitForm">
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="exitVehicle">
+
+                                    Vehicle
+
+                                </label>
+
+
+                                <select
+                                    id="exitVehicle"
+                                    required
+                                >
+
+                                    <option value="">
+
+                                        Select Parked Vehicle
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+
+                            Record Exit
+
+                        </button>
+
+
+                        <p id="exitMessage"></p>
+
+
+                    </form>
+
+
+                </div>
+
+
+
+                <!-- ================= CURRENT PARKING ================= -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Current Parking</h2>
+
+                            <p>
+                                Vehicles currently inside the parking area
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="table-container">
+
+
+                        <table>
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Record ID</th>
+
+                                    <th>Vehicle ID</th>
+
+                                    <th>Slot ID</th>
+
+                                    <th>Entry Time</th>
+
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="currentParkingBody">
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        style="text-align:center;"
+                                    >
+
+                                        Loading...
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <script src="../js/script.js"></script>
+
+    <script src="../js/entry-exit.js"></script>
+
+
+</body>
+
+</html>

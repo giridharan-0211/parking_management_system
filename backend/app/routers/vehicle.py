@@ -17,6 +17,7 @@ router = APIRouter(
 
 
 # CREATE
+
 @router.post("/", response_model=VehicleResponse)
 def create_vehicle(
     vehicle: VehicleCreate,
@@ -50,6 +51,7 @@ def create_vehicle(
 
 
 # READ ALL
+
 @router.get("/", response_model=list[VehicleResponse])
 def get_vehicles(
     db: Session = Depends(get_db)
@@ -61,6 +63,7 @@ def get_vehicles(
 
 
 # READ ONE
+
 @router.get("/{vehicle_id}", response_model=VehicleResponse)
 def get_vehicle(
     vehicle_id: int,
@@ -83,6 +86,7 @@ def get_vehicle(
 
 
 # UPDATE
+
 @router.put("/{vehicle_id}", response_model=VehicleResponse)
 def update_vehicle(
     vehicle_id: int,
@@ -114,6 +118,7 @@ def update_vehicle(
 
 
 # DELETE
+
 @router.delete("/{vehicle_id}")
 def delete_vehicle(
     vehicle_id: int,

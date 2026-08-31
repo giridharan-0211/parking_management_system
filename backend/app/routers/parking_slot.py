@@ -18,6 +18,7 @@ router = APIRouter(
 
 
 # CREATE
+
 @router.post("/", response_model=ParkingSlotResponse)
 def create_parking_slot(
     slot: ParkingSlotCreate,
@@ -49,6 +50,7 @@ def create_parking_slot(
 
 
 # READ ALL
+
 @router.get("/", response_model=list[ParkingSlotResponse])
 def get_parking_slots(
     db: Session = Depends(get_db)
@@ -60,6 +62,7 @@ def get_parking_slots(
 
 
 # READ ONE
+
 @router.get("/{slot_id}", response_model=ParkingSlotResponse)
 def get_parking_slot(
     slot_id: int,
@@ -82,6 +85,7 @@ def get_parking_slot(
 
 
 # UPDATE
+
 @router.put("/{slot_id}", response_model=ParkingSlotResponse)
 def update_parking_slot(
     slot_id: int,
@@ -111,6 +115,7 @@ def update_parking_slot(
 
 
 # DELETE
+
 @router.delete("/{slot_id}")
 def delete_parking_slot(
     slot_id: int,

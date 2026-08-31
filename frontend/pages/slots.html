@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parking Slots - Parking Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+
+        <!-- ================= SIDEBAR ================= -->
+     
+
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+
+                <h2>Parking System</h2>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="menu-item">
+                    Dashboard
+                </a>
+
+                <a href="vehicles.html" class="menu-item">
+                    Vehicles
+                </a>
+
+                <a href="slots.html" class="menu-item active">
+                    Parking Slots
+                </a>
+
+                <a href="entry-exit.html" class="menu-item">
+                    Entry / Exit
+                </a>
+
+                <a href="history.html" class="menu-item">
+                    Parking History
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <a href="../index.html" class="logout-button">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main-content">
+
+
+            <!-- Header -->
+
+            <header class="top-header">
+
+                <div>
+
+                    <h1>Parking Slots</h1>
+
+                    <p>Manage parking slots and availability</p>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <span>Admin</span>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- ================= CONTENT ================= -->
+
+            <section class="dashboard-content">
+
+
+                <!-- ADD SLOT -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Add Parking Slot</h2>
+
+                            <p>Create a new parking slot</p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form id="slotForm">
+
+
+                        <div class="form-grid">
+
+
+                            <!-- Slot Number -->
+
+                            <div class="form-group">
+
+                                <label for="slotNumber">
+
+                                    Slot Number
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    id="slotNumber"
+                                    placeholder="A-01"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- Status -->
+
+                            <div class="form-group">
+
+                                <label for="slotStatus">
+
+                                    Status
+
+                                </label>
+
+
+                                <select
+                                    id="slotStatus"
+                                    required
+                                >
+
+                                    <option value="available">
+
+                                        Available
+
+                                    </option>
+
+
+                                    <option value="occupied">
+
+                                        Occupied
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+
+                            Add Slot
+
+                        </button>
+
+
+                        <p id="slotMessage"></p>
+
+
+                    </form>
+
+
+                </div>
+
+
+
+                <!-- ================= SLOT LIST ================= -->
+
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Parking Slots</h2>
+
+                            <p>
+                                Current parking slot availability
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="table-container">
+
+
+                        <table>
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+
+                                    <th>Slot Number</th>
+
+                                    <th>Status</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+
+                            <tbody id="slotTableBody">
+
+
+                                <tr>
+
+                                    <td
+                                        colspan="4"
+                                        style="text-align:center;"
+                                    >
+
+                                        Loading parking slots...
+
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+
+    <script src="../js/script.js"></script>
+
+    <script src="../js/slots.js"></script>
+
+
+</body>
+
+</html>

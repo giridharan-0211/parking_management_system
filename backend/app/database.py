@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 
 # Find the backend folder
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load .env
@@ -14,6 +15,7 @@ load_dotenv(BASE_DIR / ".env")
 
 
 # Get database URL
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
@@ -21,6 +23,7 @@ if not DATABASE_URL:
 
 
 # Create PostgreSQL engine
+
 engine = create_engine(DATABASE_URL)
 
 
@@ -33,10 +36,12 @@ SessionLocal = sessionmaker(
 
 
 # Base class for SQLAlchemy models
+
 Base = declarative_base()
 
 
 # Database dependency for FastAPI
+
 def get_db():
     db = SessionLocal()
 
