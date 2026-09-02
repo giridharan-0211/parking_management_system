@@ -19,6 +19,8 @@ class ParkingRecordResponse(BaseModel):
     exit_time: datetime | None = None
     vehicle_number: str | None = None
     vehicle_type: str | None = None
+    owner_name: str | None = None
+    contact_number: str | None = None
     slot_number: str | None = None
 
     class Config:

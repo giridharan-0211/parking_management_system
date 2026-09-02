@@ -5,6 +5,43 @@ const VEHICLE_API_URL = "http://127.0.0.1:8000/vehicles/";
 const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
 
 
+const vehicleNumberInput =
+    document.getElementById("vehicleNumber");
+
+
+if (vehicleNumberInput) {
+
+    vehicleNumberInput.addEventListener("input", function () {
+
+        const format = [
+            /[A-Z]/, /[A-Z]/,
+            /\d/, /\d/,
+            /[A-Z]/, /[A-Z]/,
+            /\d/, /\d/, /\d/, /\d/
+        ];
+
+        const typedValue = vehicleNumberInput.value.toUpperCase();
+        let formattedValue = "";
+
+        for (const character of typedValue) {
+            const expectedCharacter = format[formattedValue.length];
+
+            if (expectedCharacter && expectedCharacter.test(character)) {
+                formattedValue += character;
+            }
+
+            if (formattedValue.length === format.length) {
+                break;
+            }
+        }
+
+        vehicleNumberInput.value = formattedValue;
+
+    });
+
+}
+
+
 async function loadAssignableSlots() {
 
     const assignedSlot =
@@ -216,6 +253,11 @@ if (vehicleForm) {
 
             const message =
                 document.getElementById("vehicleMessage");
+            const vehicleNumberMessage =
+                document.getElementById("vehicleNumberMessage");
+
+            message.textContent = "";
+            vehicleNumberMessage.textContent = "";
 
 
             // Check fields
@@ -232,10 +274,18 @@ if (vehicleForm) {
                 return;
             }
 
+            if (!/^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/.test(vehicleNumber)) {
+
+                vehicleNumberMessage.textContent =
+                    "Invalid format. Use AA00AA0000.";
+
+                return;
+            }
+
             if (!/^\d{10}$/.test(contactNumber)) {
 
                 message.textContent =
-                    "Contact number must contain exactly 10 digits.";
+                    "Invalid format. Contact number must contain 10 digits.";
 
                 return;
             }

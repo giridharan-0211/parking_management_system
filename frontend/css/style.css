@@ -64,6 +64,13 @@ body {
     font-weight: 600;
 }
 
+
+.required-mark {
+    color: #dc2626;
+
+    margin-left: 3px;
+}
+
 .form-group input {
     width: 100%;
 
@@ -80,6 +87,91 @@ body {
 
 .form-group input:focus {
     border-color: #333;
+}
+
+
+#vehicleForm .form-group select {
+    width: 100%;
+
+    max-width: 360px;
+
+    padding: 12px;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 6px;
+
+    background: #4b5563;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+#vehicleForm .form-group select:focus {
+    border-color: #111827;
+
+    box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.25);
+}
+
+
+#vehicleForm .form-group select option {
+    background: white;
+
+    color: #111827;
+}
+
+
+#vehicleForm .primary-button {
+    display: block;
+
+    margin-top: 8px;
+
+    padding: 12px 20px;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: #1f2937;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+
+#vehicleForm .primary-button:hover {
+    background: #374151;
+}
+
+
+#vehicleMessage {
+    min-height: 20px;
+
+    margin-top: 12px;
+
+    line-height: 1.4;
+
+    color: #dc2626;
+}
+
+
+.field-message {
+    min-height: 20px;
+
+    margin-top: 6px;
+
+    color: #dc2626;
+
+    font-size: 14px;
+
+    line-height: 1.4;
 }
 
 .login-button {
@@ -291,6 +383,10 @@ body {
 
     padding: 25px;
 
+    font: inherit;
+
+    text-align: left;
+
     border-radius: 10px;
 
     border: 1px solid #e5e7eb;
@@ -343,6 +439,97 @@ body {
     justify-content: space-between;
 
     gap: 12px;
+}
+
+
+.parked-slots-layout {
+    display: block;
+}
+
+
+#parkedVehiclesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+}
+
+
+.parked-slot-item {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+.parked-slot-button {
+    width: 100%;
+
+    text-align: left;
+
+    font: inherit;
+
+    cursor: pointer;
+}
+
+
+.parked-slot-button:hover {
+    box-shadow: 0 0 0 2px #b91c1c;
+}
+
+
+.parked-slot-details {
+    background: #fff7f7;
+
+    border: 1px solid #fca5a5;
+
+    border-radius: 8px;
+
+    margin-top: 0;
+
+    min-width: 0;
+
+    min-height: 105px;
+
+    padding: 14px;
+
+    box-sizing: border-box;
+}
+
+
+.parked-slot-details .selected-slot-label {
+    color: #6b7280;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.parked-slot-details p {
+    line-height: 1.6;
+
+    margin-bottom: 8px;
+}
+
+
+@media (max-width: 768px) {
+
+    .parked-slot-item {
+        display: grid;
+
+        grid-template-columns: 1fr;
+    }
+
+    .parked-slot-details {
+        margin-top: 10px;
+    }
+
 }
 
 

@@ -102,7 +102,11 @@
 
 
                     <!-- Total Slots -->
-                    <div class="stat-card">
+                    <button
+                        type="button"
+                        class="stat-card clickable-stat-card"
+                        onclick="setDashboardSlotFilter('all')"
+                    >
 
                         <div class="stat-info">
 
@@ -112,11 +116,15 @@
 
                         </div>
 
-                    </div>
+                    </button>
 
 
                     <!-- Available Slots -->
-                    <div class="stat-card">
+                    <button
+                        type="button"
+                        class="stat-card clickable-stat-card"
+                        onclick="setDashboardSlotFilter('available')"
+                    >
 
                         <div class="stat-info">
 
@@ -126,11 +134,15 @@
 
                         </div>
 
-                    </div>
+                    </button>
 
 
                     <!-- Occupied Slots -->
-                    <div class="stat-card">
+                    <button
+                        type="button"
+                        class="stat-card clickable-stat-card"
+                        onclick="setDashboardSlotFilter('occupied')"
+                    >
 
                         <div class="stat-info">
 
@@ -140,11 +152,15 @@
 
                         </div>
 
-                    </div>
+                    </button>
 
 
                     <!-- Currently Parked -->
-                    <div class="stat-card">
+                    <button
+                        type="button"
+                        class="stat-card clickable-stat-card"
+                        onclick="showCurrentlyParked()"
+                    >
 
                         <div class="stat-info">
 
@@ -154,12 +170,12 @@
 
                         </div>
 
-                    </div>
+                    </button>
 
 
                 </div>
 
-                <div class="dashboard-section">
+                <div id="dashboardSlotsPanel" class="dashboard-section">
 
                     <div class="section-header">
 
@@ -173,10 +189,36 @@
 
                     </div>
 
-
                     <div id="dashboardSlotGrid" class="slot-grid">
 
                         <p>Loading parking slots...</p>
+
+                    </div>
+
+                </div>
+
+                <div id="parkedVehiclesPanel" class="dashboard-section" hidden>
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Currently Parked Vehicles</h2>
+
+                            <p>Vehicle and assigned parking-slot details</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="parked-slots-layout">
+
+                        <div id="parkedVehiclesGrid" class="slot-grid">
+
+                            <p>Loading currently parked slots...</p>
+
+                        </div>
 
                     </div>
 

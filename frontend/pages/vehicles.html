@@ -116,6 +116,7 @@
 
                                 <label for="vehicleNumber">
                                     Vehicle Number
+                                    <span class="required-mark" aria-hidden="true">*</span>
                                 </label>
 
                                 <input
@@ -124,9 +125,10 @@
                                     placeholder="TN29AB1234"
                                     maxlength="10"
                                     style="text-transform: uppercase;"
-                                    oninput="this.value = this.value.toUpperCase()"
                                     required
                                 >
+
+                                <p id="vehicleNumberMessage" class="field-message"></p>
 
                             </div>
 
@@ -136,6 +138,7 @@
 
                                 <label for="vehicleType">
                                     Vehicle Type
+                                    <span class="required-mark" aria-hidden="true">*</span>
                                 </label>
 
                                 <select id="vehicleType" required>
@@ -177,7 +180,7 @@
                             <div class="form-group">
 
                                 <label for="assignedSlot">
-                                    Assign Parking Slot (Optional)
+                                    Assign Parking Slot
                                 </label>
 
                                 <select id="assignedSlot">
@@ -196,6 +199,7 @@
 
                                 <label for="ownerName">
                                     Owner Name
+                                    <span class="required-mark" aria-hidden="true">*</span>
                                 </label>
 
                                 <input
@@ -213,6 +217,7 @@
 
                                 <label for="contactNumber">
                                     Contact Number
+                                    <span class="required-mark" aria-hidden="true">*</span>
                                 </label>
 
                                 <input
@@ -220,7 +225,6 @@
                                     id="contactNumber"
                                     placeholder="9876543210"
                                     inputmode="numeric"
-                                    pattern="[0-9]{10}"
                                     maxlength="10"
                                     oninput="this.value = this.value.replace(/\D/g, '')"
                                     required

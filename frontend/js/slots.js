@@ -357,3 +357,6 @@ function unarchiveParkingSlot(slotId) {
     updateSlotArchiveStatus(slotId, "unarchive");
 
 }
+
+
+loadParkingSlots();

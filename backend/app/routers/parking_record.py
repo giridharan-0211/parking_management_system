@@ -195,6 +195,8 @@ def get_parking_records(
             "exit_time": record.exit_time,
             "vehicle_number": vehicle.vehicle_number,
             "vehicle_type": vehicle.vehicle_type,
+            "owner_name": vehicle.owner_name,
+            "contact_number": vehicle.contact_number,
             "slot_number": slot.slot_number
         }
         for record, vehicle, slot in records
