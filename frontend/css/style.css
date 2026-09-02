@@ -152,9 +152,17 @@ body {
 
 
 #vehicleMessage {
-    min-height: 20px;
+    width: fit-content;
 
-    margin-top: 12px;
+    margin: 12px 0 10px;
+
+    padding: 6px 10px;
+
+    border: 1px solid #fca5a5;
+
+    border-radius: 4px;
+
+    background: #fef2f2;
 
     line-height: 1.4;
 
@@ -162,16 +170,34 @@ body {
 }
 
 
-.field-message {
-    min-height: 20px;
+#vehicleMessage:empty {
+    display: none;
+}
 
-    margin-top: 6px;
+
+.field-message {
+    width: fit-content;
+
+    margin: 6px 0 0;
+
+    padding: 6px 10px;
+
+    border: 1px solid #fca5a5;
+
+    border-radius: 4px;
+
+    background: #fef2f2;
 
     color: #dc2626;
 
     font-size: 14px;
 
     line-height: 1.4;
+}
+
+
+.field-message:empty {
+    display: none;
 }
 
 .login-button {
