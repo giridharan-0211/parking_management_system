@@ -122,6 +122,9 @@
                                     type="text"
                                     id="vehicleNumber"
                                     placeholder="TN29AB1234"
+                                    maxlength="10"
+                                    style="text-transform: uppercase;"
+                                    oninput="this.value = this.value.toUpperCase()"
                                     required
                                 >
 
@@ -141,12 +144,16 @@
                                         Select Vehicle Type
                                     </option>
 
-                                    <option value="Car">
-                                        Car
-                                    </option>
-
                                     <option value="Bike">
                                         Bike
+                                    </option>
+
+                                    <option value="Auto">
+                                        Auto
+                                    </option>
+
+                                    <option value="Car">
+                                        Car
                                     </option>
 
                                     <option value="Van">
@@ -155,6 +162,28 @@
 
                                     <option value="Truck">
                                         Truck
+                                    </option>
+
+                                    <option value="Bus">
+                                        Bus
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- Assign Parking Slot -->
+                            <div class="form-group">
+
+                                <label for="assignedSlot">
+                                    Assign Parking Slot (Optional)
+                                </label>
+
+                                <select id="assignedSlot">
+
+                                    <option value="">
+                                        No slot assignment
                                     </option>
 
                                 </select>
@@ -187,9 +216,13 @@
                                 </label>
 
                                 <input
-                                    type="tel"
+                                    type="text"
                                     id="contactNumber"
                                     placeholder="9876543210"
+                                    inputmode="numeric"
+                                    pattern="[0-9]{10}"
+                                    maxlength="10"
+                                    oninput="this.value = this.value.replace(/\D/g, '')"
                                     required
                                 >
 
@@ -247,6 +280,8 @@
 
                                     <th>Contact Number</th>
 
+                                    <th>Assigned Slot</th>
+
                                     <th>Actions</th>
 
                                 </tr>
@@ -259,7 +294,7 @@
                                 <tr>
 
                                     <td
-                                        colspan="6"
+                                        colspan="7"
                                         style="text-align: center;"
                                     >
                                         Loading vehicles...

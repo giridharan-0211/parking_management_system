@@ -9,11 +9,11 @@ const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
 
 async function loadParkingSlots() {
 
-    const tableBody =
-        document.getElementById("slotTableBody");
+    const slotGrid =
+        document.getElementById("slotGrid");
 
 
-    if (!tableBody) {
+    if (!slotGrid) {
 
         return;
 
@@ -46,29 +46,14 @@ async function loadParkingSlots() {
         );
 
 
-        tableBody.innerHTML = "";
+        slotGrid.innerHTML = "";
 
 
         // No slots
 
         if (slots.length === 0) {
 
-            tableBody.innerHTML = `
-
-                <tr>
-
-                    <td
-                        colspan="4"
-                        style="text-align:center;"
-                    >
-
-                        No parking slots found.
-
-                    </td>
-
-                </tr>
-
-            `;
+            slotGrid.innerHTML = "<p>No parking slots found.</p>";
 
             return;
 
@@ -80,68 +65,46 @@ async function loadParkingSlots() {
         slots.forEach(function (slot) {
 
 
-            const row =
-                document.createElement("tr");
+            const slotBox =
+                document.createElement("div");
 
 
             const status =
                 String(slot.status).toLowerCase();
 
 
+            const isArchived = Boolean(slot.is_archived);
+
+
             const statusClass =
-                status === "occupied"
+                isArchived
+                    ? "archived"
+                    : status === "occupied"
                     ? "occupied"
                     : "available";
 
 
-            row.innerHTML = `
-
-                <td>
-
-                    ${slot.id}
-
-                </td>
+            const displayedStatus =
+                isArchived ? "Archived" : slot.status || "-";
 
 
-                <td>
+            slotBox.className = `slot-box ${statusClass}`;
 
-                    ${slot.slot_number || "-"}
-
-                </td>
-
-
-                <td>
-
-                    <span
-                        class="status-badge ${statusClass}"
-                    >
-
-                        ${slot.status || "-"}
-
-                    </span>
-
-                </td>
-
-
-                <td>
-
-
-                    <button
-                        class="delete-button"
-                        onclick="deleteParkingSlot(${slot.id})"
-                    >
-
-                        Delete
-
-                    </button>
-
-
-                </td>
-
+            slotBox.innerHTML = `
+                <span class="slot-box-number">${slot.slot_number || "-"}</span>
+                <span class="status-badge ${statusClass}">
+                    ${displayedStatus}
+                </span>
+                <button
+                    class="${isArchived ? "unarchive-button" : "archive-button"}"
+                    onclick="${isArchived ? "unarchiveParkingSlot" : "archiveParkingSlot"}(${slot.id})"
+                >
+                    ${isArchived ? "Unarchive" : "Archive"}
+                </button>
             `;
 
 
-            tableBody.appendChild(row);
+            slotGrid.appendChild(slotBox);
 
 
         });
@@ -156,22 +119,7 @@ async function loadParkingSlots() {
         );
 
 
-        tableBody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="4"
-                    style="text-align:center;"
-                >
-
-                    Unable to load parking slots.
-
-                </td>
-
-            </tr>
-
-        `;
+        slotGrid.innerHTML = "<p>Unable to load parking slots.</p>";
 
     }
 
@@ -342,23 +290,10 @@ if (slotForm) {
 
 
 
-// DELETE PARKING SLOT
+// ARCHIVE AND UNARCHIVE PARKING SLOTS
 
 
-async function deleteParkingSlot(slotId) {
-
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to delete this parking slot?"
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
+async function updateSlotArchiveStatus(slotId, action) {
 
 
     try {
@@ -366,10 +301,10 @@ async function deleteParkingSlot(slotId) {
 
         const response =
             await fetch(
-                `${SLOT_API_URL}${slotId}`,
+                `${SLOT_API_URL}${slotId}/${action}`,
                 {
 
-                    method: "DELETE"
+                    method: "PATCH"
 
                 }
             );
@@ -384,16 +319,10 @@ async function deleteParkingSlot(slotId) {
 
             throw new Error(
                 result.detail ||
-                "Failed to delete parking slot."
+                `Failed to ${action} parking slot.`
             );
 
         }
-
-
-        alert(
-            "Parking slot deleted successfully."
-        );
-
 
         loadParkingSlots();
 
@@ -402,7 +331,7 @@ async function deleteParkingSlot(slotId) {
 
 
         console.error(
-            "Error deleting parking slot:",
+            `Error trying to ${action} parking slot:`,
             error
         );
 
@@ -416,8 +345,15 @@ async function deleteParkingSlot(slotId) {
 }
 
 
+function archiveParkingSlot(slotId) {
+
+    updateSlotArchiveStatus(slotId, "archive");
+
+}
 
 
-// LOAD SLOTS WHEN PAGE OPENS
+function unarchiveParkingSlot(slotId) {
 
-loadParkingSlots();
+    updateSlotArchiveStatus(slotId, "unarchive");
+
+}

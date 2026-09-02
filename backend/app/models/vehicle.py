@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.sql import func
 
 from app.database import Base
@@ -29,6 +29,12 @@ class Vehicle(Base):
     contact_number = Column(
         String(15),
         nullable=False
+    )
+
+    assigned_slot_id = Column(
+        Integer,
+        ForeignKey("parking_slots.id"),
+        nullable=True
     )
 
     created_at = Column(

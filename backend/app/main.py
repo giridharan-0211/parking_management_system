@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 
-from app.database import engine
+from app.database import Base, SessionLocal, engine
 from app.models import User, Vehicle, ParkingSlot, ParkingRecord
 
 from app.routers.vehicle import router as vehicle_router
@@ -25,6 +25,59 @@ app.include_router(parking_slot_router)
 
 # Include Parking APIs
 app.include_router(parking_router)
+
+
+@app.on_event("startup")
+def create_default_parking_slots():
+    """Create the standard A-01 to J-10 slots when they are missing."""
+
+    Base.metadata.create_all(bind=engine)
+
+    with engine.begin() as connection:
+        connection.execute(
+            text(
+                "ALTER TABLE parking_slots "
+                "ADD COLUMN IF NOT EXISTS is_archived "
+                "BOOLEAN NOT NULL DEFAULT FALSE"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE vehicles "
+                "ADD COLUMN IF NOT EXISTS assigned_slot_id INTEGER"
+            )
+        )
+
+    default_slot_numbers = [
+        f"{row}-{number:02d}"
+        for row in "ABCDEFGHIJ"
+        for number in range(1, 11)
+    ]
+
+    db = SessionLocal()
+
+    try:
+        existing_slot_numbers = {
+            slot_number
+            for (slot_number,) in (
+                db.query(ParkingSlot.slot_number)
+                .filter(ParkingSlot.slot_number.in_(default_slot_numbers))
+                .all()
+            )
+        }
+
+        missing_slots = [
+            ParkingSlot(slot_number=slot_number, status="Available")
+            for slot_number in default_slot_numbers
+            if slot_number not in existing_slot_numbers
+        ]
+
+        if missing_slots:
+            db.add_all(missing_slots)
+            db.commit()
+
+    finally:
+        db.close()
 
 
 @app.get("/")

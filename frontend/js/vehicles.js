@@ -2,6 +2,65 @@
 
 
 const VEHICLE_API_URL = "http://127.0.0.1:8000/vehicles/";
+const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
+
+
+async function loadAssignableSlots() {
+
+    const assignedSlot =
+        document.getElementById("assignedSlot");
+
+    if (!assignedSlot) {
+        return;
+    }
+
+    try {
+        const [slotResponse, vehicleResponse] = await Promise.all([
+            fetch(SLOT_API_URL),
+            fetch(VEHICLE_API_URL)
+        ]);
+
+        if (!slotResponse.ok || !vehicleResponse.ok) {
+            throw new Error("Unable to load parking slots.");
+        }
+
+        const slots = await slotResponse.json();
+        const vehicles = await vehicleResponse.json();
+
+        const assignedSlotIds = new Set(
+            vehicles
+                .map(vehicle => vehicle.assigned_slot_id)
+                .filter(slotId => slotId !== null)
+        );
+
+        assignedSlot.innerHTML = `
+            <option value="">No slot assignment</option>
+        `;
+
+        slots.forEach(function (slot) {
+
+            if (
+                String(slot.status).toLowerCase() === "available" &&
+                !slot.is_archived &&
+                !assignedSlotIds.has(slot.id)
+            ) {
+                const option = document.createElement("option");
+
+                option.value = slot.id;
+                option.textContent = slot.slot_number;
+
+                assignedSlot.appendChild(option);
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error("Error loading assignable slots:", error);
+
+    }
+
+}
 
 
 // LOAD VEHICLES
@@ -43,7 +102,7 @@ async function loadVehicles() {
 
             tableBody.innerHTML = `
                 <tr>
-                    <td colspan="6" style="text-align:center;">
+                    <td colspan="7" style="text-align:center;">
                         No vehicles registered.
                     </td>
                 </tr>
@@ -68,6 +127,8 @@ async function loadVehicles() {
                 <td>${vehicle.owner_name || "-"}</td>
 
                 <td>${vehicle.contact_number || "-"}</td>
+
+                <td>${vehicle.assigned_slot_number || "-"}</td>
 
                 <td>
 
@@ -97,7 +158,7 @@ async function loadVehicles() {
 
         tableBody.innerHTML = `
             <tr>
-                <td colspan="6" style="text-align:center;">
+                <td colspan="7" style="text-align:center;">
                     Unable to load vehicles.
                 </td>
             </tr>
@@ -127,7 +188,8 @@ if (vehicleForm) {
             const vehicleNumber =
                 document.getElementById("vehicleNumber")
                     .value
-                    .trim();
+                    .trim()
+                    .toUpperCase();
 
 
             const vehicleType =
@@ -147,6 +209,11 @@ if (vehicleForm) {
                     .trim();
 
 
+            const assignedSlotId =
+                document.getElementById("assignedSlot")
+                    .value;
+
+
             const message =
                 document.getElementById("vehicleMessage");
 
@@ -161,6 +228,14 @@ if (vehicleForm) {
 
                 message.textContent =
                     "Please fill in all fields.";
+
+                return;
+            }
+
+            if (!/^\d{10}$/.test(contactNumber)) {
+
+                message.textContent =
+                    "Contact number must contain exactly 10 digits.";
 
                 return;
             }
@@ -186,7 +261,11 @@ if (vehicleForm) {
 
                             owner_name: ownerName,
 
-                            contact_number: contactNumber
+                            contact_number: contactNumber,
+
+                            assigned_slot_id: assignedSlotId
+                                ? Number(assignedSlotId)
+                                : null
 
                         })
 
@@ -245,6 +324,8 @@ if (vehicleForm) {
 
                 // Refresh table
                 loadVehicles();
+
+                loadAssignableSlots();
 
 
             } catch (error) {
@@ -334,3 +415,4 @@ async function deleteVehicle(vehicleId) {
 
 
 loadVehicles();
+loadAssignableSlots();

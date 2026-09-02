@@ -56,7 +56,11 @@ def get_parking_slots(
     db: Session = Depends(get_db)
 ):
 
-    slots = db.query(ParkingSlot).all()
+    slots = (
+        db.query(ParkingSlot)
+        .order_by(ParkingSlot.slot_number.asc())
+        .all()
+    )
 
     return slots
 
@@ -107,6 +111,64 @@ def update_parking_slot(
 
     slot.slot_number = slot_data.slot_number
     slot.status = slot_data.status
+
+    db.commit()
+    db.refresh(slot)
+
+    return slot
+
+
+@router.patch("/{slot_id}/archive", response_model=ParkingSlotResponse)
+def archive_parking_slot(
+    slot_id: int,
+    db: Session = Depends(get_db)
+):
+
+    slot = (
+        db.query(ParkingSlot)
+        .filter(ParkingSlot.id == slot_id)
+        .first()
+    )
+
+    if not slot:
+        raise HTTPException(
+            status_code=404,
+            detail="Parking slot not found"
+        )
+
+    if slot.status.lower() == "occupied":
+        raise HTTPException(
+            status_code=400,
+            detail="An occupied slot cannot be archived. Record vehicle exit first."
+        )
+
+    slot.is_archived = True
+
+    db.commit()
+    db.refresh(slot)
+
+    return slot
+
+
+@router.patch("/{slot_id}/unarchive", response_model=ParkingSlotResponse)
+def unarchive_parking_slot(
+    slot_id: int,
+    db: Session = Depends(get_db)
+):
+
+    slot = (
+        db.query(ParkingSlot)
+        .filter(ParkingSlot.id == slot_id)
+        .first()
+    )
+
+    if not slot:
+        raise HTTPException(
+            status_code=404,
+            detail="Parking slot not found"
+        )
+
+    slot.is_archived = False
 
     db.commit()
     db.refresh(slot)

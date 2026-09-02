@@ -29,7 +29,7 @@ if (loginForm) {
             return;
         }
 
-        if (username === "admin" && password === "admin123") {
+        if (username === "satoryuzei" && password === "1979") {
 
             loginMessage.textContent = "Login successful!";
 
@@ -142,13 +142,119 @@ async function updateDashboardStats() {
 
 
 
+// DASHBOARD - PARKING SLOT BOXES
+
+
+async function loadDashboardSlotGrid() {
+
+    const slotGrid =
+        document.getElementById("dashboardSlotGrid");
+
+    if (!slotGrid) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/parking-slots/`
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to load parking slots.");
+        }
+
+        const slots = await response.json();
+
+        slotGrid.innerHTML = "";
+
+        if (slots.length === 0) {
+            slotGrid.innerHTML = "<p>No parking slots found.</p>";
+            return;
+        }
+
+        slots.forEach(function (slot) {
+
+            const status = String(slot.status).toLowerCase();
+            const isArchived = Boolean(slot.is_archived);
+            const statusClass = isArchived
+                ? "archived"
+                : status === "occupied"
+                    ? "occupied"
+                    : "available";
+            const displayedStatus = isArchived
+                ? "Archived"
+                : slot.status || "-";
+            const action = isArchived ? "unarchive" : "archive";
+            const actionLabel = isArchived ? "Unarchive" : "Archive";
+
+            const slotBox = document.createElement("div");
+
+            slotBox.className = `slot-box ${statusClass}`;
+            slotBox.innerHTML = `
+                <span class="slot-box-number">${slot.slot_number || "-"}</span>
+                <span class="status-badge ${statusClass}">
+                    ${displayedStatus}
+                </span>
+                <button
+                    class="${isArchived ? "unarchive-button" : "archive-button"}"
+                    onclick="updateDashboardSlotArchiveStatus(${slot.id}, '${action}')"
+                >
+                    ${actionLabel}
+                </button>
+            `;
+
+            slotGrid.appendChild(slotBox);
+
+        });
+
+    } catch (error) {
+
+        console.error("Error loading dashboard slots:", error);
+        slotGrid.innerHTML = "<p>Unable to load parking slots.</p>";
+
+    }
+
+}
+
+
+async function updateDashboardSlotArchiveStatus(slotId, action) {
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/parking-slots/${slotId}/${action}`,
+            {
+                method: "PATCH"
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.detail || `Failed to ${action} parking slot.`
+            );
+        }
+
+        updateDashboardStats();
+        loadDashboardSlotGrid();
+
+    } catch (error) {
+
+        console.error(`Error trying to ${action} parking slot:`, error);
+        alert(error.message);
+
+    }
+
+}
+
+
 // DASHBOARD - RECENT PARKING ACTIVITY
 
 
 async function loadRecentParkingActivity() {
 
-    const tableBody = document.querySelector(
-        ".dashboard-section tbody"
+    const tableBody = document.getElementById(
+        "recentActivityBody"
     );
 
 
@@ -336,4 +442,17 @@ function formatDateTime(dateTime) {
 
 updateDashboardStats();
 
-loadRecentParkingActivity();
+loadDashboardSlotGrid();
+
+
+if (document.getElementById("totalSlots")) {
+
+    setInterval(function () {
+
+        updateDashboardStats();
+
+        loadDashboardSlotGrid();
+
+    }, 5000);
+
+}

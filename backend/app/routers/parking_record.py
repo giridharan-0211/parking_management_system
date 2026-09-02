@@ -58,6 +58,12 @@ def vehicle_entry(
             detail="Parking slot not found"
         )
 
+    if slot.is_archived:
+        raise HTTPException(
+            status_code=400,
+            detail="Parking slot is archived"
+        )
+
     # 3. Check whether the slot is available
     if slot.status.lower() != "available":
         raise HTTPException(
@@ -173,9 +179,23 @@ def get_parking_records(
 ):
 
     records = (
-        db.query(ParkingRecord)
+        db.query(ParkingRecord, Vehicle, ParkingSlot)
+        .join(Vehicle, ParkingRecord.vehicle_id == Vehicle.id)
+        .join(ParkingSlot, ParkingRecord.slot_id == ParkingSlot.id)
         .order_by(ParkingRecord.entry_time.desc())
         .all()
     )
 
-    return records
+    return [
+        {
+            "id": record.id,
+            "vehicle_id": record.vehicle_id,
+            "slot_id": record.slot_id,
+            "entry_time": record.entry_time,
+            "exit_time": record.exit_time,
+            "vehicle_number": vehicle.vehicle_number,
+            "vehicle_type": vehicle.vehicle_type,
+            "slot_number": slot.slot_number
+        }
+        for record, vehicle, slot in records
+    ]

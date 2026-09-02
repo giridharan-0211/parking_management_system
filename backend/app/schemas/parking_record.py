@@ -17,6 +17,9 @@ class ParkingRecordResponse(BaseModel):
     slot_id: int
     entry_time: datetime
     exit_time: datetime | None = None
+    vehicle_number: str | None = None
+    vehicle_type: str | None = None
+    slot_number: str | None = None
 
     class Config:
         from_attributes = True

@@ -155,7 +155,8 @@ async function loadAvailableSlots() {
 
             if (
                 String(slot.status).toLowerCase()
-                === "available"
+                === "available" &&
+                !slot.is_archived
             ) {
 
                 const option =
@@ -254,7 +255,7 @@ async function loadParkingRecords() {
 
         // Display active records
 
-        activeRecords.forEach(function (record) {
+        activeRecords.forEach(function (record, index) {
 
             const row =
                 document.createElement("tr");
@@ -263,15 +264,15 @@ async function loadParkingRecords() {
             row.innerHTML = `
 
                 <td>
-                    ${record.id}
+                    ${index + 1}
                 </td>
 
                 <td>
-                    ${record.vehicle_id}
+                    ${record.vehicle_number || record.vehicle_id}
                 </td>
 
                 <td>
-                    ${record.slot_id}
+                    ${record.slot_number || record.slot_id}
                 </td>
 
                 <td>
