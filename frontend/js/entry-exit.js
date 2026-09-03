@@ -30,6 +30,23 @@ const entrySlot =
 const exitVehicle =
     document.getElementById("exitVehicle");
 
+const exitVehicleType =
+    document.getElementById("exitVehicleType");
+
+const exitVehicleSearch =
+    document.getElementById("exitVehicleSearch");
+
+const exitAmountSection =
+    document.getElementById("exitAmountSection");
+
+const parkedDaysElement =
+    document.getElementById("parkedDays");
+
+const parkingAmountElement =
+    document.getElementById("parkingAmount");
+
+let activeExitRecords = [];
+
 const entryForm =
     document.getElementById("entryForm");
 
@@ -44,6 +61,28 @@ const exitMessage =
 
 const currentParkingBody =
     document.getElementById("currentParkingBody");
+
+
+function showExitSuccessPopup() {
+
+    const modal = document.getElementById("exitConfirmModal");
+    const confirmButton = document.getElementById("exitConfirmAction");
+
+    modal.hidden = false;
+
+    return new Promise(function (resolve) {
+
+        function close() {
+            modal.hidden = true;
+            confirmButton.removeEventListener("click", close);
+            resolve();
+        }
+
+        confirmButton.addEventListener("click", close);
+
+    });
+
+}
 
 
 
@@ -71,18 +110,12 @@ async function loadVehicles() {
 
         // Clear old options
 
-        entryVehicle.innerHTML = `
-            <option value="">
-                Select Vehicle
-            </option>
-        `;
+        if (entryVehicle) {
+            entryVehicle.innerHTML = `
+                <option value="">Select Vehicle</option>
+            `;
+        }
 
-
-        exitVehicle.innerHTML = `
-            <option value="">
-                Select Parked Vehicle
-            </option>
-        `;
 
 
         // Add vehicles to entry dropdown
@@ -97,7 +130,9 @@ async function loadVehicles() {
             option.textContent =
                 `${vehicle.vehicle_number} - ${vehicle.vehicle_type}`;
 
-            entryVehicle.appendChild(option);
+            if (entryVehicle) {
+                entryVehicle.appendChild(option);
+            }
 
         });
 
@@ -143,6 +178,10 @@ async function loadAvailableSlots() {
         const slots =
             await response.json();
 
+
+        if (!entrySlot) {
+            return;
+        }
 
         entrySlot.innerHTML = `
             <option value="">
@@ -297,9 +336,8 @@ async function loadParkingRecords() {
         });
 
 
-        updateExitVehicleDropdown(
-            activeRecords
-        );
+        activeExitRecords = activeRecords;
+        updateExitVehicleDropdown(activeRecords);
 
 
     } catch (error) {
@@ -339,37 +377,114 @@ function updateExitVehicleDropdown(
     activeRecords
 ) {
 
+    const vehicleTypes = [...new Set(
+        activeRecords
+            .map(record => record.vehicle_type)
+            .filter(Boolean)
+    )];
+
+    exitVehicleType.innerHTML = `
+        <option value="">Select Vehicle Type</option>
+    `;
+    vehicleTypes.forEach(function (vehicleType) {
+        const option = document.createElement("option");
+        option.value = vehicleType;
+        option.textContent = vehicleType;
+        exitVehicleType.appendChild(option);
+    });
+
     exitVehicle.innerHTML = `
 
         <option value="">
 
-            Select Parked Vehicle
+            Select Vehicle Number
 
         </option>
 
     `;
 
 
-    activeRecords.forEach(function (record) {
+    exitVehicle.disabled = true;
+    exitAmountSection.hidden = true;
 
-        const option =
-            document.createElement("option");
-
-        option.value =
-            record.vehicle_id;
-
-        option.textContent =
-            `Vehicle ID: ${record.vehicle_id}`;
-
-        exitVehicle.appendChild(option);
-
-    });
+    exitVehicleSearch.value = "";
 
 }
 
 
+function populateExitVehicleNumbers() {
+
+    const selectedType = exitVehicleType.value;
+    const searchText = exitVehicleSearch.value.trim().toUpperCase();
+
+    exitVehicle.innerHTML = "<option value=\"\">Select Vehicle Number</option>";
+
+    activeExitRecords
+        .filter(function (record) {
+            const vehicleNumber = String(record.vehicle_number || "").toUpperCase();
+            return record.vehicle_type === selectedType && vehicleNumber.includes(searchText);
+        })
+        .forEach(function (record) {
+            const option = document.createElement("option");
+            option.value = record.vehicle_id;
+            option.textContent = record.vehicle_number || `Vehicle ID: ${record.vehicle_id}`;
+            option.dataset.entryTime = record.entry_time;
+            exitVehicle.appendChild(option);
+        });
+
+    exitVehicle.disabled = !selectedType;
+    exitAmountSection.hidden = true;
+
+}
+
+
+exitVehicleType.addEventListener("change", function () {
+
+    exitVehicleSearch.value = "";
+    populateExitVehicleNumbers();
+
+});
+
+
+exitVehicleSearch.addEventListener("input", populateExitVehicleNumbers);
+
+
+exitVehicle.addEventListener("change", function () {
+
+    const selectedOption = exitVehicle.options[exitVehicle.selectedIndex];
+    const entryTime = selectedOption ? selectedOption.dataset.entryTime : "";
+    const vehicleType = exitVehicleType.value;
+    const rateByType = {
+        Bike: 20,
+        Car: 30,
+        Van: 30,
+        Auto: 50,
+        Truck: 50,
+        Bus: 50
+    };
+
+    if (!entryTime || !rateByType[vehicleType]) {
+        exitAmountSection.hidden = true;
+        return;
+    }
+
+    const elapsedMilliseconds = Date.now() - new Date(entryTime).getTime();
+    const parkedDays = Math.max(
+        1,
+        Math.ceil(elapsedMilliseconds / (24 * 60 * 60 * 1000))
+    );
+
+    parkedDaysElement.textContent = parkedDays;
+    parkingAmountElement.textContent = parkedDays * rateByType[vehicleType];
+    exitAmountSection.hidden = false;
+
+});
+
+
 // VEHICLE ENTRY
 
+
+if (entryForm) {
 
 entryForm.addEventListener(
     "submit",
@@ -472,6 +587,8 @@ entryForm.addEventListener(
     }
 );
 
+}
+
 
 
 // VEHICLE EXIT
@@ -490,16 +607,14 @@ exitForm.addEventListener(
 
         if (!vehicleId) {
 
-            exitMessage.textContent =
-                "Please select a parked vehicle.";
+            if (exitMessage) {
+                exitMessage.textContent =
+                    "Please select a parked vehicle.";
+            }
 
             return;
 
         }
-
-
-        exitMessage.textContent =
-            "Recording vehicle exit...";
 
 
         try {
@@ -543,8 +658,7 @@ exitForm.addEventListener(
             }
 
 
-            exitMessage.textContent =
-                "Vehicle exit recorded successfully!";
+            await showExitSuccessPopup();
 
 
             exitForm.reset();
@@ -564,8 +678,10 @@ exitForm.addEventListener(
                 error
             );
 
-            exitMessage.textContent =
-                error.message;
+            if (exitMessage) {
+                exitMessage.textContent =
+                    error.message;
+            }
 
         }
 
@@ -592,7 +708,14 @@ function formatDateTime(
         new Date(dateTime);
 
 
-    return date.toLocaleString();
+    return date.toLocaleString([], {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+    });
 
 }
 

@@ -7,6 +7,16 @@ const historyMessage =
     document.getElementById("historyMessage");
 
 
+function parseParkingDate(dateTime) {
+
+    const value = String(dateTime);
+    const hasTimezone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(value);
+
+    return new Date(hasTimezone ? value : `${value}Z`);
+
+}
+
+
 async function loadParkingHistory() {
 
     try {
@@ -44,12 +54,26 @@ async function loadParkingHistory() {
 
             const entryTime =
                 record.entry_time
-                    ? new Date(record.entry_time).toLocaleString()
+                    ? parseParkingDate(record.entry_time).toLocaleString([], {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true
+                    })
                     : "-";
 
             const exitTime =
                 record.exit_time
-                    ? new Date(record.exit_time).toLocaleString()
+                    ? parseParkingDate(record.exit_time).toLocaleString([], {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true
+                    })
                     : "-";
 
 

@@ -11,29 +11,47 @@ body {
     font-family: Arial, sans-serif;
     background: #feffff;
     min-height: 100vh;
+
+    overflow-x: hidden;
 }
 
 .login-container {
     min-height: 100vh;
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 
-    padding: 20px;
+    padding: 20px 80px 20px 20px;
+
+    background:
+        linear-gradient(rgba(2, 15, 45, 0.18), rgba(2, 15, 45, 0.18)),
+        url("../assets/Parking_Management_System.png") center / cover no-repeat;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        justify-content: center;
+
+        padding: 20px;
+    }
 }
 
 .login-card {
     width: 100%;
     max-width: 420px;
 
-    background: rgb(247, 193, 193);
+    background: rgba(255, 255, 255, 0.18);
 
     padding: 40px;
 
     border-radius: 12px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+
+    backdrop-filter: blur(12px);
 }
 
 .login-card h1 {
@@ -42,12 +60,14 @@ body {
     font-size: 28px;
 
     margin-bottom: 10px;
+
+    color: white;
 }
 
 .login-subtitle {
     text-align: center;
 
-    color: #666;
+    color: rgba(255, 255, 255, 0.86);
 
     margin-bottom: 30px;
 }
@@ -62,6 +82,10 @@ body {
     margin-bottom: 8px;
 
     font-weight: 600;
+}
+
+.login-card .form-group label {
+    color: white;
 }
 
 
@@ -80,13 +104,203 @@ body {
 
     border-radius: 6px;
 
+    background: rgba(255, 255, 255, 0.82);
+
     font-size: 15px;
 
     outline: none;
 }
 
+.login-card .form-group input {
+    border-color: rgba(255, 255, 255, 0.4);
+
+    background: rgba(255, 255, 255, 0.86);
+}
+
 .form-group input:focus {
     border-color: #333;
+}
+
+
+.slot-confirm-modal {
+    position: fixed;
+
+    inset: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    z-index: 1000;
+}
+
+
+.slot-confirm-modal[hidden] {
+    display: none;
+}
+
+
+.slot-confirm-backdrop {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(4px);
+}
+
+
+.slot-confirm-dialog {
+    position: relative;
+
+    width: min(92vw, 420px);
+
+    padding: 30px;
+
+    border: 1px solid #dbe3ee;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.82);
+
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+
+    backdrop-filter: blur(12px);
+
+    text-align: center;
+
+    animation: slot-dialog-enter 180ms ease-out;
+}
+
+
+.slot-confirm-icon {
+    display: grid;
+
+    width: 46px;
+
+    height: 46px;
+
+    margin: 0 auto 16px;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #e8eef7;
+
+    color: #1f2937;
+
+    font-size: 26px;
+
+    font-weight: 700;
+}
+
+
+.slot-confirm-icon.success {
+    background: rgba(220, 252, 231, 0.82);
+
+    color: #15803d;
+}
+
+
+.slot-confirm-icon.warning {
+    background: #fef3c7;
+
+    color: #b45309;
+}
+
+
+.slot-confirm-dialog h2 {
+    margin-bottom: 8px;
+
+    color: #111827;
+
+    font-size: 22px;
+}
+
+
+.slot-confirm-dialog p {
+    margin-bottom: 24px;
+
+    color: #64748b;
+
+    line-height: 1.5;
+}
+
+
+.slot-confirm-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+}
+
+
+.slot-confirm-actions button {
+    min-width: 110px;
+
+    padding: 11px 18px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    font: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.slot-cancel-button {
+    background: #e5e7eb;
+
+    color: #374151;
+}
+
+
+.slot-confirm-button {
+    background: #1f2937;
+
+    color: white;
+}
+
+
+.slot-confirm-button:hover {
+    background: #374151;
+}
+
+
+.slot-confirm-modal.success .slot-confirm-button {
+    background: #15803d;
+}
+
+
+.slot-confirm-modal.success .slot-confirm-button:hover {
+    background: #166534;
+}
+
+
+.exit-section {
+    max-width: 760px;
+}
+
+
+@keyframes slot-dialog-enter {
+    from {
+        opacity: 0;
+
+        transform: translateY(10px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+    }
 }
 
 
@@ -125,6 +339,324 @@ body {
 }
 
 
+#exitForm .form-group select {
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 14px;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 6px;
+
+    background: #4b5563;
+
+    color: white;
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+
+#exitForm .form-group select:focus {
+    border-color: #111827;
+
+    box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.25);
+}
+
+
+#exitForm .form-group select option {
+    background: white;
+
+    color: #111827;
+}
+
+
+#exitForm .form-group input {
+    width: 100%;
+
+    max-width: 420px;
+
+    margin-bottom: 10px;
+
+    padding: 14px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 6px;
+
+    background: rgba(255, 255, 255, 0.82);
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+
+#exitForm .form-group input:focus {
+    border-color: #1f2937;
+
+    box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.25);
+}
+
+
+.vehicle-number-picker {
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 8px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    background: rgba(248, 250, 252, 0.74);
+
+    backdrop-filter: blur(10px);
+}
+
+
+.vehicle-number-picker input,
+.vehicle-number-picker select {
+    max-width: none;
+}
+
+
+.vehicle-number-picker input {
+    margin-bottom: 8px;
+}
+
+
+.vehicle-search-row {
+    display: flex;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    gap: 8px;
+
+    margin: 12px 0 10px;
+}
+
+
+.vehicle-search-row[hidden],
+.vehicle-search-results[hidden] {
+    display: none;
+}
+
+
+.vehicle-search-row input {
+    flex: 1;
+
+    min-width: 0;
+
+    margin: 0;
+}
+
+
+.vehicle-search-row button {
+    border: 0;
+
+    border-radius: 7px;
+
+    padding: 0 14px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.vehicle-search-row button:hover {
+    background: #1d4ed8;
+}
+
+
+.vehicle-search-results {
+    display: grid;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    gap: 6px;
+
+    margin: 0 0 10px;
+
+    padding: 8px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    font-size: 14px;
+}
+
+
+.vehicle-search-result {
+    width: 100%;
+
+    padding: 9px 10px;
+
+    border: 1px solid #dbe3ee;
+
+    border-radius: 6px;
+
+    background: #f8fafc;
+
+    color: #1e293b;
+
+    font: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+
+.vehicle-search-result:hover {
+    border-color: #93c5fd;
+
+    background: #eff6ff;
+}
+
+
+.exit-amount-section {
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 16px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    background: rgba(238, 244, 251, 0.78);
+
+    color: #1f2937;
+
+    backdrop-filter: blur(10px);
+}
+
+
+.exit-amount-section p {
+    margin-bottom: 8px;
+}
+
+
+.exit-amount-section .exit-amount-label {
+    margin-bottom: 12px;
+
+    color: #1f2937;
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+#exitForm .primary-button {
+    margin-top: 8px;
+
+    padding: 13px 24px;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+#exitForm .primary-button:hover {
+    background: #1d4ed8;
+}
+
+
+#slotForm .form-group select {
+    width: 100%;
+
+    max-width: 360px;
+
+    padding: 12px;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 6px;
+
+    background: #4b5563;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+#slotForm .form-group select:focus {
+    border-color: #111827;
+
+    box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.25);
+}
+
+
+#slotForm .form-group select option {
+    background: white;
+
+    color: #111827;
+}
+
+
+#slotForm .primary-button {
+    display: block;
+
+    margin-top: 8px;
+
+    padding: 12px 20px;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+
+#slotForm .primary-button:hover {
+    background: #1d4ed8;
+}
+
+
 #vehicleForm .primary-button {
     display: block;
 
@@ -136,7 +668,7 @@ body {
 
     border-radius: 6px;
 
-    background: #1f2937;
+    background: #2563eb;
 
     color: white;
 
@@ -147,7 +679,7 @@ body {
 
 
 #vehicleForm .primary-button:hover {
-    background: #374151;
+    background: #1d4ed8;
 }
 
 
@@ -162,11 +694,20 @@ body {
 
     border-radius: 4px;
 
-    background: #fef2f2;
+    background: rgba(254, 242, 242, 0.82);
 
     line-height: 1.4;
 
     color: #dc2626;
+}
+
+
+#vehicleMessage.success {
+    border-color: #86efac;
+
+    background: rgba(240, 253, 244, 0.82);
+
+    color: #16a34a;
 }
 
 
@@ -186,7 +727,7 @@ body {
 
     border-radius: 4px;
 
-    background: #fef2f2;
+    background: rgba(254, 242, 242, 0.82);
 
     color: #dc2626;
 
@@ -209,17 +750,19 @@ body {
 
     border-radius: 6px;
 
-    background: #f3d3d3;
+    background: #2563eb;
 
-    color: rgb(0, 0, 0);
+    color: white;
 
     font-size: 16px;
+
+    font-weight: 700;
 
     cursor: pointer;
 }
 
 .login-button:hover {
-    background: #444;
+    background: #1d4ed8;
 }
 
 #loginMessage {
@@ -228,6 +771,8 @@ body {
     margin-top: 15px;
 
     font-size: 14px;
+
+    color: white;
 }
 
 /* 
@@ -342,20 +887,26 @@ body {
 
     width: calc(100% - 240px);
 
+    min-width: 0;
+
     min-height: 100vh;
 
-    background: #f4f6f8;
+    background: linear-gradient(135deg, #f8efe3 0%, #ead2b5 52%, #dcb990 100%);
+
+    color: #1f2937;
 }
 
 
 /* Header */
 
 .top-header {
-    background: white;
+    background: rgba(8, 13, 24, 0.78);
 
     padding: 20px 30px;
 
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.22);
+
+    backdrop-filter: blur(12px);
 
     display: flex;
 
@@ -369,11 +920,13 @@ body {
     font-size: 24px;
 
     margin-bottom: 5px;
+
+    color: #f8fafc;
 }
 
 
 .top-header p {
-    color: #6b7280;
+    color: #9fb4d0;
 
     font-size: 14px;
 }
@@ -396,7 +949,7 @@ body {
 .stats-grid {
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 
     gap: 20px;
 
@@ -405,7 +958,7 @@ body {
 
 
 .stat-card {
-    background: white;
+    background: rgba(15, 23, 42, 0.78);
 
     padding: 25px;
 
@@ -415,12 +968,14 @@ body {
 
     border-radius: 10px;
 
-    border: 1px solid #e5e7eb;
+    border: 1px solid rgba(96, 165, 250, 0.24);
+
+    backdrop-filter: blur(12px);
 }
 
 
 .stat-info p {
-    color: #6b7280;
+    color: #9fb4d0;
 
     font-size: 14px;
 
@@ -430,6 +985,8 @@ body {
 
 .stat-info h2 {
     font-size: 30px;
+
+    color: #60a5fa;
 }
 
 
@@ -449,12 +1006,20 @@ body {
 }
 
 
+
+#dashboardSlotGrid > p {
+    grid-column: 1 / -1;
+
+    min-width: 0;
+}
+
+
 .slot-box {
     min-height: 105px;
 
     padding: 16px;
 
-    border: 1px solid #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.32);
 
     border-radius: 10px;
 
@@ -475,6 +1040,21 @@ body {
 
 #parkedVehiclesGrid {
     grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+}
+
+
+#exitedVehiclesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+}
+
+
+#exitedVehiclesGrid .parked-slot-item {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+#parkedVehiclesGrid .parked-slot-item {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 
@@ -506,9 +1086,9 @@ body {
 
 
 .parked-slot-details {
-    background: #fff7f7;
+    background: rgba(30, 41, 59, 0.78);
 
-    border: 1px solid #fca5a5;
+    border: 1px solid rgba(96, 165, 250, 0.28);
 
     border-radius: 8px;
 
@@ -521,11 +1101,20 @@ body {
     padding: 14px;
 
     box-sizing: border-box;
+
+    backdrop-filter: blur(10px);
+}
+
+
+#parkedVehiclesPanel .parked-slot-details {
+    background: rgba(22, 101, 52, 0.22);
+
+    border-color: #86efac;
 }
 
 
 .parked-slot-details .selected-slot-label {
-    color: #6b7280;
+    color: #9fb4d0;
 
     font-size: 12px;
 
@@ -534,6 +1123,28 @@ body {
     letter-spacing: 0.08em;
 
     text-transform: uppercase;
+}
+
+
+.parked-slot-details .slot-number-label {
+    color: #dbeafe;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+
+.parked-slot-details .record-index {
+    color: #60a5fa;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
 }
 
 
@@ -560,23 +1171,36 @@ body {
 
 
 .slot-box.available {
-    background: #f0fdf4;
+    background: rgba(22, 101, 52, 0.24);
+
+    border-color: #86efac;
+
+    backdrop-filter: blur(10px);
+}
+
+
+.slot-box.occupied {
+    background: rgba(127, 29, 29, 0.24);
+
+    border-color: #fca5a5;
+
+    backdrop-filter: blur(10px);
+}
+
+
+#parkedVehiclesPanel .slot-box.occupied {
+    background: rgba(22, 101, 52, 0.24);
 
     border-color: #86efac;
 }
 
 
-.slot-box.occupied {
-    background: #fef2f2;
-
-    border-color: #fca5a5;
-}
-
-
 .slot-box.archived {
-    background: #f3f4f6;
+    background: rgba(51, 65, 85, 0.58);
 
     border-color: #9ca3af;
+
+    backdrop-filter: blur(10px);
 }
 
 
@@ -584,6 +1208,8 @@ body {
     font-size: 20px;
 
     font-weight: 700;
+
+    color: #f8fafc;
 }
 
 
@@ -646,29 +1272,159 @@ body {
 
 
 .available-slots-card {
-    background: #dcfce7;
+    background: rgba(22, 101, 52, 0.28);
 
-    color: #15803d;
+    color: #86efac;
+
+    backdrop-filter: blur(10px);
 }
 
 
 .occupied-slots-card {
-    background: #fee2e2;
+    background: rgba(127, 29, 29, 0.28);
 
-    color: #b91c1c;
+    color: #fca5a5;
+
+    backdrop-filter: blur(10px);
 }
 
 
 /* Dashboard Sections */
 
 .dashboard-section {
-    background: white;
+    background: rgba(15, 23, 42, 0.78);
 
     border-radius: 10px;
 
-    border: 1px solid #e5e7eb;
+    border: 1px solid rgba(96, 165, 250, 0.24);
 
     padding: 25px;
+
+    backdrop-filter: blur(12px);
+}
+
+
+.compact-form-section {
+    max-width: 640px;
+}
+
+
+.compact-form-section .form-grid {
+    max-width: 420px;
+}
+
+
+.compact-form-section .form-group input,
+.compact-form-section .form-group select {
+    max-width: 420px;
+}
+
+
+.compact-form-section .primary-button {
+    min-width: 170px;
+}
+
+
+/* Compact glass fields for the slot and vehicle-entry forms. */
+#slotForm .form-group input,
+#vehicleForm .form-group input,
+#slotForm .form-group select,
+#vehicleForm .form-group select {
+    width: 100%;
+
+    max-width: 340px;
+
+    padding: 12px 14px;
+
+    border: 1px solid rgba(148, 163, 184, 0.42);
+
+    border-radius: 10px;
+
+    background: rgba(15, 23, 42, 0.42);
+
+    color: #f8fafc;
+
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 20px rgba(2, 6, 23, 0.16);
+
+    backdrop-filter: blur(10px);
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+#slotForm .form-group input::placeholder,
+#vehicleForm .form-group input::placeholder {
+    color: #9fb4d0;
+}
+
+
+#slotForm .form-group input:focus,
+#vehicleForm .form-group input:focus,
+#slotForm .form-group select:focus,
+#vehicleForm .form-group select:focus {
+    border-color: #60a5fa;
+
+    background: rgba(30, 41, 59, 0.56);
+
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2),
+        0 10px 24px rgba(2, 6, 23, 0.24);
+}
+
+
+#slotForm .form-group select option,
+#vehicleForm .form-group select option {
+    background: #0f172a;
+
+    color: #f8fafc;
+}
+
+
+/* Shared translucent-white card treatment. */
+.stat-card,
+.dashboard-section,
+.parked-slot-details,
+#parkedVehiclesPanel .parked-slot-details,
+.slot-box.available,
+.slot-box.occupied,
+#parkedVehiclesPanel .slot-box.occupied,
+.slot-box.archived,
+.slot-detail-card,
+.available-slots-card,
+.occupied-slots-card {
+    background: rgba(255, 255, 255, 0.62);
+
+    border-color: rgba(255, 255, 255, 0.72);
+
+    box-shadow: 0 10px 26px rgba(90, 55, 25, 0.12);
+}
+
+
+.stat-card,
+.dashboard-section,
+.parked-slot-details,
+.slot-box,
+.slot-detail-card {
+    color: #1f2937;
+}
+
+
+.stat-info p,
+.section-header p,
+.parked-slot-details .selected-slot-label {
+    color: #475569;
+}
+
+
+.dashboard-section .section-header h2 {
+    color: #1f2937;
+}
+
+
+.slot-box-number,
+.parked-slot-details .slot-number-label {
+    color: #1f2937;
 }
 
 
@@ -681,11 +1437,13 @@ body {
     font-size: 20px;
 
     margin-bottom: 5px;
+
+    color: #f8fafc;
 }
 
 
 .section-header p {
-    color: #6b7280;
+    color: #9fb4d0;
 
     font-size: 14px;
 }
@@ -710,9 +1468,9 @@ th {
 
     padding: 14px;
 
-    background: #f9fafb;
+    background: rgba(8, 13, 24, 0.82);
 
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.22);
 
     font-size: 14px;
 }
@@ -721,7 +1479,7 @@ th {
 td {
     padding: 14px;
 
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.24);
 
     font-size: 14px;
 }
@@ -741,14 +1499,365 @@ td {
 
 
 .status-badge.occupied {
-    background: #fee2e2;
+    background: rgba(254, 226, 226, 0.82);
 
-    color: #b91c1c;
+    color: #7f1d1d;
+}
+
+
+#parkedVehiclesPanel .status-badge.occupied {
+    background: rgba(220, 252, 231, 0.82);
+
+    color: #15803d;
 }
 
 
 .status-badge.available {
-    background: #dcfce7;
+    background: rgba(220, 252, 231, 0.82);
 
     color: #15803d;
+}
+
+
+/* Final visual polish for the beige and glass dashboard theme. */
+.dashboard-content {
+    padding: 34px;
+}
+
+
+.dashboard-section {
+    border-radius: 16px;
+}
+
+
+.dashboard-section + .dashboard-section {
+    margin-top: 22px;
+}
+
+
+.stat-card {
+    border-radius: 16px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+.clickable-stat-card:hover {
+    background: rgba(255, 255, 255, 0.76);
+
+    box-shadow: 0 16px 30px rgba(90, 55, 25, 0.18);
+
+    transform: translateY(-4px);
+}
+
+
+.clickable-stat-card:focus-visible,
+.primary-button:focus-visible,
+.archive-button:focus-visible,
+.unarchive-button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.42);
+
+    outline-offset: 3px;
+}
+
+
+#slotForm .primary-button,
+#vehicleForm .primary-button,
+#exitForm .primary-button {
+    border-radius: 10px;
+
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+
+    font-weight: 700;
+
+    letter-spacing: 0.01em;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+#slotForm .primary-button:hover,
+#vehicleForm .primary-button:hover,
+#exitForm .primary-button:hover {
+    box-shadow: 0 12px 22px rgba(37, 99, 235, 0.34);
+
+    transform: translateY(-2px);
+}
+
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        padding: 20px;
+    }
+
+    .dashboard-section {
+        padding: 20px;
+    }
+
+    #slotForm .form-group input,
+    #vehicleForm .form-group input,
+    #slotForm .form-group select,
+    #vehicleForm .form-group select {
+        max-width: 100%;
+    }
+}
+
+
+/* Clean white application theme. */
+body {
+    background: #f8fafc;
+}
+
+
+.sidebar,
+.top-header {
+    background: rgba(255, 255, 255, 0.96);
+
+    color: #1e293b;
+
+    border-color: #e2e8f0;
+}
+
+
+.sidebar-header {
+    border-bottom-color: #e2e8f0;
+}
+
+
+.menu-item {
+    color: #475569;
+}
+
+
+.menu-item:hover,
+.menu-item.active {
+    background: #eff6ff;
+
+    color: #1d4ed8;
+}
+
+
+.main-content {
+    background: #f8fafc;
+
+    color: #1e293b;
+}
+
+
+.top-header h1,
+.top-header p {
+    color: #1e293b;
+}
+
+
+.top-header p {
+    color: #64748b;
+}
+
+
+.stat-card,
+.dashboard-section,
+.parked-slot-details,
+#parkedVehiclesPanel .parked-slot-details,
+.slot-detail-card {
+    background: rgba(255, 255, 255, 0.9);
+
+    border-color: #e2e8f0;
+
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+
+.stat-info p,
+.section-header p,
+.parked-slot-details .selected-slot-label {
+    color: #64748b;
+}
+
+
+.dashboard-section .section-header h2,
+.slot-box-number,
+.parked-slot-details .slot-number-label {
+    color: #1e293b;
+}
+
+
+.clickable-stat-card:hover {
+    background: #ffffff;
+
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+}
+
+
+/* Status colors are reserved for their matching parking states. */
+.slot-box.available,
+.available-slots-card {
+    background: #f0fdf4;
+
+    border-color: #86efac;
+
+    color: #166534;
+}
+
+
+.slot-box.occupied,
+#parkedVehiclesPanel .slot-box.occupied,
+.occupied-slots-card {
+    background: #fef2f2;
+
+    border-color: #fca5a5;
+
+    color: #991b1b;
+}
+
+
+.slot-box.archived {
+    background: #f8fafc;
+
+    border-color: #cbd5e1;
+}
+
+
+th {
+    background: #f8fafc;
+
+    color: #475569;
+
+    border-bottom-color: #e2e8f0;
+}
+
+
+td {
+    border-bottom-color: #e2e8f0;
+}
+
+
+#slotForm .form-group input,
+#vehicleForm .form-group input,
+#slotForm .form-group select,
+#vehicleForm .form-group select {
+    background: rgba(255, 255, 255, 0.76);
+
+    border-color: #cbd5e1;
+
+    color: #1e293b;
+
+    box-shadow: none;
+}
+
+
+#slotForm .form-group input::placeholder,
+#vehicleForm .form-group input::placeholder {
+    color: #94a3b8;
+}
+
+
+#slotForm .form-group input:focus,
+#vehicleForm .form-group input:focus,
+#slotForm .form-group select:focus,
+#vehicleForm .form-group select:focus {
+    background: #ffffff;
+
+    border-color: #3b82f6;
+
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+}
+
+
+#slotForm .form-group select option,
+#vehicleForm .form-group select option {
+    background: #ffffff;
+
+    color: #1e293b;
+}
+
+
+/* Black outlined text fields for vehicle entry and new slot number. */
+#vehicleForm .form-group input,
+#slotForm .form-group input {
+    border-color: #111827;
+
+    color: #111827;
+}
+
+
+#vehicleForm .form-group input::placeholder,
+#slotForm .form-group input::placeholder {
+    color: #111827;
+
+    opacity: 0.62;
+}
+
+
+#vehicleForm .form-group input:focus,
+#slotForm .form-group input:focus {
+    border-color: #111827;
+
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.14);
+}
+
+
+/* Dashboard-specific color cues. */
+.sidebar {
+    background: #0f2747;
+
+    color: #ffffff;
+
+    border-right: 1px solid #173b69;
+}
+
+
+.sidebar-header {
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+
+.menu-item {
+    color: #dbeafe;
+}
+
+
+.menu-item:hover,
+.menu-item.active {
+    background: #1d4f86;
+
+    color: #ffffff;
+}
+
+
+#parkedVehiclesPanel .parked-slot-details {
+    background: #f0fdf4;
+
+    border-color: #86efac;
+
+    color: #111827;
+}
+
+
+#parkedVehiclesPanel .parked-slot-details .record-index,
+#parkedVehiclesPanel .parked-slot-details .slot-number-label,
+#parkedVehiclesPanel .parked-slot-details p {
+    color: #111827;
+}
+
+
+#parkedVehiclesPanel .parked-slot-details .record-index {
+    color: #15803d;
+}
+
+
+#parkedVehiclesPanel .parked-slot-details .selected-slot-label,
+#exitedVehiclesGrid .parked-slot-details .selected-slot-label {
+    color: #6b7280;
+}
+
+
+#exitedVehiclesGrid .parked-slot-details,
+#exitedVehiclesGrid .parked-slot-details .record-index,
+#exitedVehiclesGrid .parked-slot-details .selected-slot-label,
+#exitedVehiclesGrid .parked-slot-details .slot-number-label,
+#exitedVehiclesGrid .parked-slot-details p {
+    color: #111827;
 }

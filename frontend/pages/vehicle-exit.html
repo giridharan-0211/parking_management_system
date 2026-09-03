@@ -82,13 +82,6 @@
 
                 </div>
 
-
-                <div class="admin-info">
-
-                    <span>Admin</span>
-
-                </div>
-
             </header>
 
 
@@ -138,16 +131,28 @@
                                     Vehicle Number
                                 </label>
 
-                                <input
-                                    type="search"
-                                    id="exitVehicleSearch"
-                                    placeholder="Search vehicle number"
-                                    autocomplete="off"
-                                >
-
                                 <select id="exitVehicle" required disabled>
                                     <option value="">Select Vehicle Number</option>
                                 </select>
+
+                                <div id="exitVehicleSearchContainer" class="vehicle-search-row" hidden>
+                                    <input
+                                        type="search"
+                                        id="exitVehicleSearch"
+                                        placeholder="Search vehicle number"
+                                        autocomplete="off"
+                                    >
+
+                                    <button
+                                        type="button"
+                                        id="exitVehicleSearchButton"
+                                        onclick="searchExitVehicles()"
+                                    >
+                                        Search
+                                    </button>
+                                </div>
+
+                                <div id="exitVehicleSearchResults" class="vehicle-search-results" hidden></div>
 
                             </div>
 
@@ -171,7 +176,7 @@
                             class="primary-button"
                         >
 
-                            Record Exit
+                            Exit Vehicle
 
                         </button>
 
@@ -192,10 +197,10 @@
 
                         <div>
 
-                            <h2>Current Parking</h2>
+                            <h2>Exited Vehicles Records</h2>
 
                             <p>
-                                Vehicles currently inside the parking area
+                                Vehicles that have exited the parking area
                             </p>
 
                         </div>
@@ -222,6 +227,8 @@
 
                                     <th>Entry Time</th>
 
+                                    <th>Exit Time</th>
+
                                     <th>Status</th>
 
                                 </tr>
@@ -229,12 +236,12 @@
                             </thead>
 
 
-                            <tbody id="currentParkingBody">
+                            <tbody id="exitedVehiclesBody">
 
                                 <tr>
 
                                     <td
-                                        colspan="5"
+                                        colspan="6"
                                         style="text-align:center;"
                                     >
 
@@ -278,7 +285,7 @@
 
             <div class="slot-confirm-icon success" aria-hidden="true">&#10003;</div>
 
-            <h2 id="exitConfirmTitle">Vehicle Exit Recorded</h2>
+            <h2 id="exitConfirmTitle">Vehicle Exited</h2>
 
             <p>Vehicle exit recorded successfully!</p>
 

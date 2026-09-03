@@ -69,12 +69,17 @@ async function updateDashboardStats() {
     const parkedVehiclesElement =
         document.getElementById("parkedVehicles");
 
+    const exitedVehiclesElement =
+        document.getElementById("exitedVehicles");
+
+
 
     if (
         !totalSlotsElement ||
         !availableSlotsElement ||
         !occupiedSlotsElement ||
-        !parkedVehiclesElement
+        !parkedVehiclesElement ||
+        !exitedVehiclesElement
     ) {
         return;
     }
@@ -82,11 +87,12 @@ async function updateDashboardStats() {
 
     try {
 
-        const response = await fetch(
-            `${API_BASE_URL}/parking-slots/`
-        );
+        const [response, recordsResponse] = await Promise.all([
+            fetch(`${API_BASE_URL}/parking-slots/`),
+            fetch(`${API_BASE_URL}/parking/records`)
+        ]);
 
-        if (!response.ok) {
+        if (!response.ok || !recordsResponse.ok) {
 
             throw new Error(
                 `Failed to fetch parking slots. Status: ${response.status}`
@@ -95,6 +101,7 @@ async function updateDashboardStats() {
         }
 
         const parkingSlots = await response.json();
+        const records = await recordsResponse.json();
 
         console.log("Parking slots received:", parkingSlots);
 
@@ -115,6 +122,9 @@ async function updateDashboardStats() {
 
         }).length;
 
+        const exitedVehicles = records.filter(function (record) {
+            return record.exit_time !== null;
+        }).length;
 
         totalSlotsElement.textContent = totalSlots;
 
@@ -123,6 +133,9 @@ async function updateDashboardStats() {
         occupiedSlotsElement.textContent = occupiedSlots;
 
         parkedVehiclesElement.textContent = occupiedSlots;
+
+        exitedVehiclesElement.textContent = exitedVehicles;
+
 
 
     } catch (error) {
@@ -136,6 +149,7 @@ async function updateDashboardStats() {
         availableSlotsElement.textContent = "0";
         occupiedSlotsElement.textContent = "0";
         parkedVehiclesElement.textContent = "0";
+        exitedVehiclesElement.textContent = "0";
     }
 
 }
@@ -152,14 +166,31 @@ function setDashboardSlotFilter(filter) {
     dashboardSlotFilter = filter;
 
     const dashboardSlotsPanel = document.getElementById("dashboardSlotsPanel");
+    const dashboardSlotsTitle = document.getElementById("dashboardSlotsTitle");
     const parkedPanel = document.getElementById("parkedVehiclesPanel");
+    const exitedPanel = document.getElementById("exitedVehiclesPanel");
+
+    const dashboardSlotHeadings = {
+        all: "Total Parking Slots",
+        available: "Available Slots",
+        occupied: "Occupied Slots"
+    };
+    const heading = dashboardSlotHeadings[filter] || dashboardSlotHeadings.all;
 
     if (dashboardSlotsPanel) {
         dashboardSlotsPanel.hidden = false;
     }
 
+    if (dashboardSlotsTitle) {
+        dashboardSlotsTitle.textContent = heading;
+    }
+
     if (parkedPanel) {
         parkedPanel.hidden = true;
+    }
+
+    if (exitedPanel) {
+        exitedPanel.hidden = true;
     }
 
     loadDashboardSlotGrid();
@@ -249,112 +280,278 @@ async function loadDashboardSlotGrid() {
 
 async function showCurrentlyParked() {
 
-    const dashboardSlotsPanel = document.getElementById("dashboardSlotsPanel");
-    const panel = document.getElementById("parkedVehiclesPanel");
-    const parkedVehiclesGrid = document.getElementById("parkedVehiclesGrid");
+    const dashboardSlotsPanel =
+        document.getElementById("dashboardSlotsPanel");
 
+    const parkedPanel =
+        document.getElementById("parkedVehiclesPanel");
+
+    const exitedPanel =
+        document.getElementById("exitedVehiclesPanel");
+
+    const parkedVehiclesGrid =
+        document.getElementById("parkedVehiclesGrid");
+
+
+    // Check required elements
+    if (!parkedPanel || !parkedVehiclesGrid) {
+        console.error("Parked vehicles panel not found.");
+        return;
+    }
+
+
+    // Hide dashboard parking slots
     if (dashboardSlotsPanel) {
         dashboardSlotsPanel.hidden = true;
     }
 
-    panel.hidden = false;
-    parkedVehiclesGrid.innerHTML = "<p>Loading currently parked slots...</p>";
+
+    // Show parked vehicles panel
+    parkedPanel.hidden = false;
+
+
+    // Hide exited vehicles panel
+    if (exitedPanel) {
+        exitedPanel.hidden = true;
+    }
+
+
+    // Show loading message
+    parkedVehiclesGrid.innerHTML =
+        "<p>Loading currently parked vehicles...</p>";
+
 
     try {
-        const [recordsResponse, slotsResponse] = await Promise.all([
-            fetch(`${API_BASE_URL}/parking/records`),
-            fetch(`${API_BASE_URL}/parking-slots/`)
-        ]);
 
-        if (!recordsResponse.ok || !slotsResponse.ok) {
-            throw new Error("Unable to load currently parked slots.");
+        // Get parking records
+        const response = await fetch(
+            `${API_BASE_URL}/parking/records`
+        );
+
+
+        if (!response.ok) {
+            throw new Error(
+                `Parking records request failed: ${response.status}`
+            );
         }
 
-        const records = await recordsResponse.json();
-        const slots = await slotsResponse.json();
+
+        const records = await response.json();
+
+
+        console.log("Parking records:", records);
+
+
+        // Get only vehicles that have NOT exited
         const activeRecords = records.filter(function (record) {
 
             return record.exit_time === null;
 
         });
 
+
+        // Clear loading message
         parkedVehiclesGrid.innerHTML = "";
 
-        const activeRecordsBySlot = new Map(
-            activeRecords.map(function (record) {
-                return [record.slot_id, record];
-            })
-        );
-        const occupiedSlots = slots.filter(function (slot) {
-            return !slot.is_archived && activeRecordsBySlot.has(slot.id);
-        });
 
-        if (occupiedSlots.length === 0) {
-            parkedVehiclesGrid.innerHTML = "<p>No vehicles are currently parked.</p>";
+        // No active vehicles
+        if (activeRecords.length === 0) {
+
+            parkedVehiclesGrid.innerHTML =
+                "<p>No vehicles are currently parked.</p>";
+
             return;
         }
 
-        occupiedSlots.forEach(function (slot) {
+
+        // Display every currently parked vehicle
+        activeRecords.forEach(function (record, index) {
+
+            const vehicleCard =
+                document.createElement("div");
+
+
+            vehicleCard.className =
+                "parked-slot-item";
+
+
+            vehicleCard.innerHTML = `
+
+                <div class="parked-slot-details">
+
+                    <p class="record-index">
+                        Vehicle #${index + 1}
+                    </p>
+
+                    <p class="slot-number-label">
+                        ${record.slot_number || "-"}
+                    </p>
+
+                    <p>
+                        <strong>Vehicle:</strong>
+                        ${record.vehicle_number || "-"}
+                    </p>
+
+                    <p>
+                        <strong>Type:</strong>
+                        ${record.vehicle_type || "-"}
+                    </p>
+
+                    <p>
+                        <strong>Entry Time:</strong>
+                        ${formatDateTime(record.entry_time)}
+                    </p>
+
+                </div>
+
+
+                <div class="parked-slot-details parked-owner-details">
+
+                    <p class="selected-slot-label">
+                        Owner Details
+                    </p>
+
+                    <p>
+                        <strong>Name:</strong>
+                        ${record.owner_name || "-"}
+                    </p>
+
+                    <p>
+                        <strong>Contact:</strong>
+                        ${record.contact_number || "-"}
+                    </p>
+
+                </div>
+
+            `;
+
+
+            parkedVehiclesGrid.appendChild(vehicleCard);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading currently parked vehicles:",
+            error
+        );
+
+
+        parkedVehiclesGrid.innerHTML =
+            "<p>Unable to load currently parked vehicles.</p>";
+
+    }
+
+}
+
+
+async function showExitedVehicles() {
+
+    const dashboardSlotsPanel = document.getElementById("dashboardSlotsPanel");
+    const parkedPanel = document.getElementById("parkedVehiclesPanel");
+    const exitedPanel = document.getElementById("exitedVehiclesPanel");
+    const exitedVehiclesGrid = document.getElementById("exitedVehiclesGrid");
+
+    dashboardSlotsPanel.hidden = true;
+    parkedPanel.hidden = true;
+    exitedPanel.hidden = false;
+    exitedVehiclesGrid.innerHTML = "<p>Loading exited vehicle details...</p>";
+
+    try {
+
+        const response = await fetch(`${API_BASE_URL}/parking/records`);
+
+        if (!response.ok) {
+            throw new Error("Unable to load exited vehicle details.");
+        }
+
+        const records = await response.json();
+        const exitedRecords = records.filter(function (record) {
+            return record.exit_time !== null;
+        });
+
+        exitedRecords.sort(function (firstRecord, secondRecord) {
+            return parseParkingDate(secondRecord.exit_time) - parseParkingDate(firstRecord.exit_time);
+        });
+
+        exitedVehiclesGrid.innerHTML = "";
+
+        if (exitedRecords.length === 0) {
+            exitedVehiclesGrid.innerHTML = "<p>No exited vehicles found.</p>";
+            return;
+        }
+
+        exitedRecords.forEach(function (record, index) {
 
             const slotItem = document.createElement("div");
-            const slotBox = document.createElement("button");
-            const record = activeRecordsBySlot.get(slot.id);
-            const slotNumber = slot.slot_number || record.slot_number || "-";
+            const slotNumber = record.slot_number || "-";
 
             slotItem.className = "parked-slot-item";
-            slotBox.type = "button";
-            slotBox.className = "slot-box occupied parked-slot-button";
-            slotBox.innerHTML = `
-                <span class="slot-box-number">${slotNumber}</span>
-                <span class="status-badge occupied">Occupied</span>
-            `;
 
             const details = document.createElement("div");
             details.className = "parked-slot-details";
-            details.hidden = true;
             details.innerHTML = `
-                <p class="selected-slot-label">${slotNumber}</p>
+                <p class="record-index">Vehicle #${index + 1}</p>
+                <p class="slot-number-label">${slotNumber}</p>
                 <p><strong>Vehicle:</strong> ${record.vehicle_number || "-"}</p>
                 <p><strong>Type:</strong> ${record.vehicle_type || "-"}</p>
                 <p><strong>Entry Time:</strong> ${formatDateTime(record.entry_time)}</p>
+                <p><strong>Exit Time:</strong> ${formatDateTime(record.exit_time)}</p>
             `;
 
             const ownerDetails = document.createElement("div");
             ownerDetails.className = "parked-slot-details parked-owner-details";
-            ownerDetails.hidden = true;
             ownerDetails.innerHTML = `
                 <p class="selected-slot-label">Owner details</p>
                 <p><strong>Name:</strong> ${record.owner_name || "-"}</p>
                 <p><strong>Contact:</strong> ${record.contact_number || "-"}</p>
+                <p><strong>Paid Amount:</strong> Rs. ${calculateParkingAmount(
+                    record.vehicle_type,
+                    calculateParkedDays(record.entry_time, record.exit_time)
+                )}</p>
             `;
 
-            slotBox.addEventListener("click", function () {
-                if (!details.hidden) {
-                    details.hidden = true;
-                    ownerDetails.hidden = true;
-                    return;
-                }
-
-                document.querySelectorAll(".parked-slot-details").forEach(function (item) {
-                    item.hidden = true;
-                });
-                details.hidden = false;
-                ownerDetails.hidden = false;
-            });
-
-            slotItem.appendChild(slotBox);
             slotItem.appendChild(details);
             slotItem.appendChild(ownerDetails);
-            parkedVehiclesGrid.appendChild(slotItem);
+            exitedVehiclesGrid.appendChild(slotItem);
 
         });
 
     } catch (error) {
 
-        console.error("Error loading currently parked vehicles:", error);
-        parkedVehiclesGrid.innerHTML = "<p>Unable to load currently parked vehicles.</p>";
+        console.error("Error loading exited vehicles:", error);
+        exitedVehiclesGrid.innerHTML = "<p>Unable to load exited vehicle details.</p>";
 
     }
+
+}
+
+
+function calculateParkedDays(entryTime, exitTime) {
+
+    const elapsedMilliseconds =
+        parseParkingDate(exitTime).getTime() -
+        parseParkingDate(entryTime).getTime();
+
+    return Math.max(1, Math.ceil(elapsedMilliseconds / (24 * 60 * 60 * 1000)));
+
+}
+
+
+function calculateParkingAmount(vehicleType, parkedDays) {
+
+    const rateByType = {
+        Bike: 20,
+        Car: 30,
+        Van: 30,
+        Auto: 50,
+        Truck: 50,
+        Bus: 50
+    };
+
+    return (rateByType[vehicleType] || 0) * parkedDays;
 
 }
 
@@ -528,7 +725,7 @@ function formatDateTime(dateTime) {
 
     try {
 
-        const date = new Date(dateTime);
+        const date = parseParkingDate(dateTime);
 
 
         if (isNaN(date.getTime())) {
@@ -536,13 +733,34 @@ function formatDateTime(dateTime) {
         }
 
 
-        return date.toLocaleString();
+        return date.toLocaleString([], {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+        });
 
     } catch (error) {
 
         return dateTime;
 
     }
+
+}
+
+
+function parseParkingDate(dateTime) {
+
+    if (!dateTime) {
+        return new Date(NaN);
+    }
+
+    const value = String(dateTime);
+    const hasTimezone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(value);
+
+    return new Date(hasTimezone ? value : `${value}Z`);
 
 }
 

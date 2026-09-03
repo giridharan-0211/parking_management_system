@@ -5,13 +5,77 @@ const VEHICLE_API_URL = "http://127.0.0.1:8000/vehicles/";
 const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
 
 
+function showVehicleConfirmation(
+    message,
+    title,
+    confirmText,
+    showCancel,
+    iconType
+) {
+
+    const modal = document.getElementById("vehicleConfirmModal");
+    const titleElement = document.getElementById("vehicleConfirmTitle");
+    const iconElement = document.getElementById("vehicleConfirmIcon");
+    const messageElement = document.getElementById("vehicleConfirmMessage");
+    const confirmButton = document.getElementById("vehicleConfirmAction");
+    const cancelButtons = modal.querySelectorAll("[data-vehicle-confirm-cancel]");
+
+    titleElement.textContent = title;
+    iconElement.textContent = iconType === "success"
+        ? String.fromCharCode(10003)
+        : String.fromCharCode(9888);
+    iconElement.className = `slot-confirm-icon ${iconType}`;
+    messageElement.textContent = message;
+    confirmButton.textContent = confirmText;
+    modal.className = `slot-confirm-modal ${iconType}`;
+    cancelButtons.forEach(function (button) {
+        button.hidden = !showCancel;
+    });
+    modal.hidden = false;
+
+    return new Promise(function (resolve) {
+
+        function close(result) {
+            modal.hidden = true;
+            confirmButton.removeEventListener("click", confirmAction);
+            cancelButtons.forEach(function (button) {
+                button.removeEventListener("click", cancelAction);
+                button.hidden = false;
+            });
+            resolve(result);
+        }
+
+        function confirmAction() {
+            close(true);
+        }
+
+        function cancelAction() {
+            close(false);
+        }
+
+        confirmButton.addEventListener("click", confirmAction);
+        cancelButtons.forEach(function (button) {
+            button.addEventListener("click", cancelAction);
+        });
+
+    });
+
+}
+
+
 const vehicleNumberInput =
     document.getElementById("vehicleNumber");
+const ownerNameInput =
+    document.getElementById("ownerName");
+const contactNumberInput =
+    document.getElementById("contactNumber");
 
 
 if (vehicleNumberInput) {
 
     vehicleNumberInput.addEventListener("input", function () {
+
+        vehicleNumberInput.setCustomValidity("");
 
         const format = [
             /[A-Z]/, /[A-Z]/,
@@ -40,6 +104,32 @@ if (vehicleNumberInput) {
     });
 
 }
+
+
+ownerNameInput.addEventListener("invalid", function () {
+    ownerNameInput.setCustomValidity("Please fill out the name section.");
+});
+
+ownerNameInput.addEventListener("input", function () {
+    ownerNameInput.setCustomValidity("");
+});
+
+contactNumberInput.addEventListener("invalid", function () {
+    contactNumberInput.setCustomValidity(
+        "Please fill out the contact number."
+    );
+});
+
+contactNumberInput.addEventListener("input", function () {
+    contactNumberInput.setCustomValidity("");
+});
+
+
+vehicleNumberInput.addEventListener("invalid", function () {
+    vehicleNumberInput.setCustomValidity(
+        "Please enter the vehicle number."
+    );
+});
 
 
 async function loadAssignableSlots() {
@@ -71,7 +161,7 @@ async function loadAssignableSlots() {
         );
 
         assignedSlot.innerHTML = `
-            <option value="">No slot assignment</option>
+            <option value="">Select Parking Slot</option>
         `;
 
         slots.forEach(function (slot) {
@@ -140,7 +230,7 @@ async function loadVehicles() {
             tableBody.innerHTML = `
                 <tr>
                     <td colspan="7" style="text-align:center;">
-                        No vehicles registered.
+                        No added vehicles.
                     </td>
                 </tr>
             `;
@@ -215,6 +305,31 @@ const vehicleForm =
 
 if (vehicleForm) {
 
+    const vehicleTypeSelect =
+        document.getElementById("vehicleType");
+    const assignedSlotSelect =
+        document.getElementById("assignedSlot");
+
+    vehicleTypeSelect.addEventListener("invalid", function () {
+        vehicleTypeSelect.setCustomValidity(
+            "Please select the vehicle type."
+        );
+    });
+
+    vehicleTypeSelect.addEventListener("change", function () {
+        vehicleTypeSelect.setCustomValidity("");
+    });
+
+    assignedSlotSelect.addEventListener("invalid", function () {
+        assignedSlotSelect.setCustomValidity(
+            "Please select a parking slot for the vehicle."
+        );
+    });
+
+    assignedSlotSelect.addEventListener("change", function () {
+        assignedSlotSelect.setCustomValidity("");
+    });
+
     vehicleForm.addEventListener(
         "submit",
         async function (event) {
@@ -257,6 +372,7 @@ if (vehicleForm) {
                 document.getElementById("vehicleNumberMessage");
 
             message.textContent = "";
+            message.classList.remove("success");
             vehicleNumberMessage.textContent = "";
 
 
@@ -276,16 +392,38 @@ if (vehicleForm) {
 
             if (!/^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/.test(vehicleNumber)) {
 
-                vehicleNumberMessage.textContent =
-                    "Invalid format. Use AA00AA0000.";
+                await showVehicleConfirmation(
+                    "Invalid format. Use AA00AA0000.",
+                    "Invalid Vehicle Number",
+                    "OK",
+                    false,
+                    "warning"
+                );
+
+                vehicleNumberInput.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+                vehicleNumberInput.focus();
 
                 return;
             }
 
             if (!/^\d{10}$/.test(contactNumber)) {
 
-                message.textContent =
-                    "Invalid format. Contact number must contain 10 digits.";
+                await showVehicleConfirmation(
+                    "Contact number must contain 10 digits.",
+                    "Invalid Contact Number",
+                    "OK",
+                    false,
+                    "warning"
+                );
+
+                contactNumberInput.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+                contactNumberInput.focus();
 
                 return;
             }
@@ -364,8 +502,14 @@ if (vehicleForm) {
 
 
                 // Success
-                message.textContent =
-                    "Vehicle added successfully!";
+                message.classList.add("success");
+                await showVehicleConfirmation(
+                    "Vehicle added successfully!",
+                    "Vehicle Added",
+                    "OK",
+                    false,
+                    "success"
+                );
 
 
                 // Clear form
@@ -402,8 +546,12 @@ if (vehicleForm) {
 
 async function deleteVehicle(vehicleId) {
 
-    const confirmed = confirm(
-        "Are you sure you want to delete this vehicle?"
+    const confirmed = await showVehicleConfirmation(
+        "Are you sure you want to delete this vehicle?",
+        "Delete Vehicle",
+        "Delete",
+        true,
+        "warning"
     );
 
 
@@ -436,8 +584,12 @@ async function deleteVehicle(vehicleId) {
         }
 
 
-        alert(
-            "Vehicle deleted successfully."
+        await showVehicleConfirmation(
+            "Vehicle deleted successfully.",
+            "Vehicle Deleted",
+            "OK",
+            false,
+            "success"
         );
 
 

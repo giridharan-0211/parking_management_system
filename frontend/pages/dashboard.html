@@ -5,11 +5,204 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Dashboard - Parking Management System</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           EXITED VEHICLES DASHBOARD DESIGN
+           ===================================================== */
+
+        #exitedVehiclesPanel {
+
+            border: 2px solid rgba(96, 165, 250, 0.24);
+
+            border-radius: 10px;
+
+            margin-top: 20px;
+
+        }
+
+        #exitedVehiclesPanel .section-header h2 {
+
+            color: #f8fafc;
+
+        }
+
+
+        #exitedVehiclesGrid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(480px, 1fr)
+                );
+
+            gap: 14px;
+
+        }
+
+
+        /* Individual exited vehicle container */
+
+        #exitedVehiclesGrid .parked-slot-item {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+
+            min-width: 0;
+
+        }
+
+
+        /* Exited vehicle detail cards */
+
+        #exitedVehiclesGrid .parked-slot-details {
+
+            background: #fef2f2;
+
+            border: 1px solid #fca5a5;
+
+            border-radius: 8px;
+
+            min-width: 0;
+
+            min-height: 105px;
+
+            padding: 14px;
+
+            box-sizing: border-box;
+
+            backdrop-filter: blur(10px);
+
+        }
+
+
+        /* Vehicle number heading */
+
+        #exitedVehiclesGrid
+        .parked-slot-details
+        .record-index {
+
+            color: #dc2626;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        /* Slot number */
+
+        #exitedVehiclesGrid
+        .parked-slot-details
+        .slot-number-label {
+
+            color: #6b7280;
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        /* Owner details heading */
+
+        #exitedVehiclesGrid
+        .parked-slot-details
+        .selected-slot-label {
+
+            color: #111827;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* Exited vehicle text */
+
+        #exitedVehiclesGrid
+        .parked-slot-details p {
+
+            line-height: 1.6;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        /* Exited status */
+
+        .exited-dashboard-status {
+
+            display: inline-block;
+
+            background: rgba(37, 99, 235, 0.22);
+
+            color: #bfdbfe;
+
+            border: 1px solid rgba(96, 165, 250, 0.36);
+
+            border-radius: 999px;
+
+            padding: 4px 10px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* Responsive */
+
+        @media (max-width: 768px) {
+
+            #exitedVehiclesGrid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            #exitedVehiclesGrid
+            .parked-slot-item {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -17,75 +210,109 @@
 <body>
 
     <!-- Main Application Container -->
+
     <div class="app-container">
 
 
-        <!-- Sidebar -->
+        <!-- =================================================
+             SIDEBAR
+             ================================================= -->
+
         <aside class="sidebar">
+
 
             <div class="sidebar-header">
 
-                <h2>Parking System</h2>
+                <h2>
+                    Parking System
+                </h2>
 
             </div>
 
 
             <nav class="sidebar-menu">
 
-                <a href="dashboard.html" class="menu-item active">
+
+                <a
+                    href="dashboard.html"
+                    class="menu-item active"
+                >
                     Dashboard
                 </a>
 
-                <a href="vehicles.html" class="menu-item">
-                    Vehicles
+
+                <a
+                    href="vehicle-entry.html"
+                    class="menu-item"
+                >
+                    Vehicle Entry
                 </a>
 
-                <a href="slots.html" class="menu-item">
+
+                <a
+                    href="slots.html"
+                    class="menu-item"
+                >
                     Parking Slots
                 </a>
 
-                <a href="entry-exit.html" class="menu-item">
-                    Entry / Exit
+
+                <a
+                    href="vehicle-exit.html"
+                    class="menu-item"
+                >
+                    Vehicle Exit
                 </a>
 
-                <a href="history.html" class="menu-item">
+
+                <a
+                    href="history.html"
+                    class="menu-item"
+                >
                     Parking History
                 </a>
+
 
             </nav>
 
 
             <div class="sidebar-footer">
 
-                <a href="../index.html" class="logout-button">
+                <a
+                    href="../index.html"
+                    class="logout-button"
+                >
                     Logout
                 </a>
 
             </div>
 
+
         </aside>
 
 
 
-        <!-- Main Content -->
+        <!-- =================================================
+             MAIN CONTENT
+             ================================================= -->
+
         <main class="main-content">
 
 
-            <!-- Header -->
+            <!-- HEADER -->
+
             <header class="top-header">
+
 
                 <div>
 
-                    <h1>Dashboard</h1>
+                    <h1>
+                        Dashboard
+                    </h1>
 
-                    <p>Parking management overview</p>
-
-                </div>
-
-
-                <div class="admin-info">
-
-                    <span>Admin</span>
+                    <p>
+                        Parking management overview
+                    </p>
 
                 </div>
 
@@ -93,15 +320,22 @@
 
 
 
-            <!-- Dashboard Content -->
+            <!-- =================================================
+                 DASHBOARD CONTENT
+                 ================================================= -->
+
             <section class="dashboard-content">
 
 
-                <!-- Statistics Cards -->
+                <!-- =================================================
+                     STATISTICS CARDS
+                     ================================================= -->
+
                 <div class="stats-grid">
 
 
-                    <!-- Total Slots -->
+                    <!-- TOTAL SLOTS -->
+
                     <button
                         type="button"
                         class="stat-card clickable-stat-card"
@@ -110,16 +344,22 @@
 
                         <div class="stat-info">
 
-                            <p>Total Parking Slots</p>
+                            <p>
+                                Total Parking Slots
+                            </p>
 
-                            <h2 id="totalSlots">100</h2>
+                            <h2 id="totalSlots">
+                                100
+                            </h2>
 
                         </div>
 
                     </button>
 
 
-                    <!-- Available Slots -->
+
+                    <!-- AVAILABLE SLOTS -->
+
                     <button
                         type="button"
                         class="stat-card clickable-stat-card"
@@ -128,16 +368,22 @@
 
                         <div class="stat-info">
 
-                            <p>Available Slots</p>
+                            <p>
+                                Available Slots
+                            </p>
 
-                            <h2 id="availableSlots">70</h2>
+                            <h2 id="availableSlots">
+                                70
+                            </h2>
 
                         </div>
 
                     </button>
 
 
-                    <!-- Occupied Slots -->
+
+                    <!-- OCCUPIED SLOTS -->
+
                     <button
                         type="button"
                         class="stat-card clickable-stat-card"
@@ -146,16 +392,22 @@
 
                         <div class="stat-info">
 
-                            <p>Occupied Slots</p>
+                            <p>
+                                Occupied Slots
+                            </p>
 
-                            <h2 id="occupiedSlots">30</h2>
+                            <h2 id="occupiedSlots">
+                                30
+                            </h2>
 
                         </div>
 
                     </button>
 
 
-                    <!-- Currently Parked -->
+
+                    <!-- PARKED VEHICLES -->
+
                     <button
                         type="button"
                         class="stat-card clickable-stat-card"
@@ -164,9 +416,39 @@
 
                         <div class="stat-info">
 
-                            <p>Currently Parked</p>
+                            <p>
+                                Parked Vehicles Info
+                            </p>
 
-                            <h2 id="parkedVehicles">30</h2>
+                            <h2 id="parkedVehicles">
+                                30
+                            </h2>
+
+                        </div>
+
+                    </button>
+
+
+
+                    <!-- =================================================
+                         EXITED VEHICLES
+                         ================================================= -->
+
+                    <button
+                        type="button"
+                        class="stat-card clickable-stat-card"
+                        onclick="showExitedVehicles()"
+                    >
+
+                        <div class="stat-info">
+
+                            <p>
+                                Exited Vehicle Info
+                            </p>
+
+                            <h2 id="exitedVehicles">
+                                0
+                            </h2>
 
                         </div>
 
@@ -175,37 +457,68 @@
 
                 </div>
 
-                <div id="dashboardSlotsPanel" class="dashboard-section">
 
-                    <div class="section-header">
+
+                <!-- =================================================
+                     PARKING SLOTS PANEL
+                     ================================================= -->
+
+                <div
+                    id="dashboardSlotsPanel"
+                    class="dashboard-section"
+                >
+
+
+                    <div
+                        id="dashboardSlotsHeader"
+                        class="section-header"
+                    >
 
                         <div>
 
-                            <h2>Parking Slots</h2>
-
-                            <p>Available and occupied parking slots</p>
+                            <h2 id="dashboardSlotsTitle">
+                                Parking Slots
+                            </h2>
 
                         </div>
 
                     </div>
 
-                    <div id="dashboardSlotGrid" class="slot-grid">
 
-                        <p>Loading parking slots...</p>
+                    <div
+                        id="dashboardSlotGrid"
+                        class="slot-grid"
+                    >
+
+                        <p>
+                            Loading parking slots...
+                        </p>
 
                     </div>
 
+
                 </div>
 
-                <div id="parkedVehiclesPanel" class="dashboard-section" hidden>
+
+
+                <!-- =================================================
+                     PARKED VEHICLES PANEL
+                     ================================================= -->
+
+                <div
+                    id="parkedVehiclesPanel"
+                    class="dashboard-section"
+                    hidden
+                >
+
 
                     <div class="section-header">
 
                         <div>
 
-                            <h2>Currently Parked Vehicles</h2>
-
-                            <p>Vehicle and assigned parking-slot details</p>
+                            <h2>
+                                Parked Vehicles Info
+                            </h2>
 
                         </div>
 
@@ -214,15 +527,77 @@
 
                     <div class="parked-slots-layout">
 
-                        <div id="parkedVehiclesGrid" class="slot-grid">
 
-                            <p>Loading currently parked slots...</p>
+                        <div
+                            id="parkedVehiclesGrid"
+                            class="slot-grid"
+                        >
+
+                            <p>
+                                Loading currently parked slots...
+                            </p>
 
                         </div>
 
+
                     </div>
 
+
                 </div>
+
+
+
+                <!-- =================================================
+                     EXITED VEHICLES PANEL
+                     ================================================= -->
+
+                <div
+                    id="exitedVehiclesPanel"
+                    class="dashboard-section"
+                    hidden
+                >
+
+
+                    <div class="section-header">
+
+
+                        <div>
+
+                            <h2 id="exitedVehiclesTitle">
+                                Exited Vehicles Info 
+                            </h2>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="parked-slots-layout">
+
+
+                        <!-- IMPORTANT:
+                             script.js uses this exact ID -->
+
+                        <div
+                            id="exitedVehiclesGrid"
+                            class="slot-grid"
+                        >
+
+                            <p>
+                                Click Exited Vehicle Info
+                                to load exited vehicles.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
 
             </section>
 
@@ -233,7 +608,11 @@
     </div>
 
 
+
+    <!-- JAVASCRIPT -->
+
     <script src="../js/script.js"></script>
+
 
 </body>
 
