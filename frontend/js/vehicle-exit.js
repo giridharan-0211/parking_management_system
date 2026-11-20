@@ -3,19 +3,19 @@
 // ============================================================
 
 const VEHICLES_API =
-    "http://127.0.0.1:8000/vehicles/";
+  "https://parking-management-system-5zfc.onrender.com/vehicles/";
 
 const SLOTS_API =
-    "http://127.0.0.1:8000/parking-slots/";
+  "https://parking-management-system-5zfc.onrender.com/parking-slots/";
 
 const ENTRY_API =
-    "http://127.0.0.1:8000/parking/entry";
+  "https://parking-management-system-5zfc.onrender.com/parking/entry";
 
 const EXIT_API =
-    "http://127.0.0.1:8000/parking/exit";
+  "https://parking-management-system-5zfc.onrender.com/parking/exit";
 
 const RECORDS_API =
-    "http://127.0.0.1:8000/parking/records";
+  "https://parking-management-system-5zfc.onrender.com/parking/records";
 
 
 // ============================================================
