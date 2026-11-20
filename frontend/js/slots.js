@@ -1,7 +1,7 @@
 // PARKING SLOTS PAGE
 
 
-const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
+const SLOT_API_URL = "https://parking-management-system-5zfc.onrender.com/parking-slots/";
 
 
 const slotNumberInput = document.getElementById("slotNumber");
