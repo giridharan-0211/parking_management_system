@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exit - Parking Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+
+                <h2>Parking System</h2>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="menu-item">
+                    Dashboard
+                </a>
+
+                <a href="vehicle-entry.html" class="menu-item">
+                    Vehicle Entry
+                </a>
+
+                <a href="slots.html" class="menu-item">
+                    Parking Slots
+                </a>
+
+                <a href="vehicle-exit.html" class="menu-item active">
+                    Vehicle Exit
+                </a>
+
+                <a href="history.html" class="menu-item">
+                    Parking History
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <a href="../index.html" class="logout-button">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main-content">
+
+
+            <!-- HEADER -->
+
+            <header class="top-header">
+
+                <div>
+
+                    <h1>Vehicle Exit</h1>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <span>Admin</span>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- ================= CONTENT ================= -->
+
+            <section class="dashboard-content">
+
+
+                <!-- ================= VEHICLE EXIT ================= -->
+
+                <div class="dashboard-section exit-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form id="exitForm">
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="exitVehicleType">
+                                    Vehicle Type
+                                </label>
+
+                                <select id="exitVehicleType" required>
+                                    <option value="">Select Vehicle Type</option>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="exitVehicle">
+                                    Vehicle Number
+                                </label>
+
+                                <input
+                                    type="search"
+                                    id="exitVehicleSearch"
+                                    placeholder="Search vehicle number"
+                                    autocomplete="off"
+                                >
+
+                                <select id="exitVehicle" required disabled>
+                                    <option value="">Select Vehicle Number</option>
+                                </select>
+
+                            </div>
+
+                            <div id="exitAmountSection" class="exit-amount-section" hidden>
+
+                                <p class="exit-amount-label">Parking Amount</p>
+
+                                <p><strong>Days parked:</strong> <span id="parkedDays">-</span></p>
+
+                                <p><strong>Amount:</strong> Rs. <span id="parkingAmount">-</span></p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+
+                            Record Exit
+
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+
+
+                <!-- ================= CURRENT PARKING ================= -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Current Parking</h2>
+
+                            <p>
+                                Vehicles currently inside the parking area
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="table-container">
+
+
+                        <table>
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Record No.</th>
+
+                                    <th>Vehicle Number</th>
+
+                                    <th>Slot Number</th>
+
+                                    <th>Entry Time</th>
+
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="currentParkingBody">
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        style="text-align:center;"
+                                    >
+
+                                        Loading...
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+    <div id="exitConfirmModal" class="slot-confirm-modal success" hidden>
+
+        <div class="slot-confirm-backdrop"></div>
+
+        <div
+            class="slot-confirm-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="exitConfirmTitle"
+        >
+
+            <div class="slot-confirm-icon success" aria-hidden="true">&#10003;</div>
+
+            <h2 id="exitConfirmTitle">Vehicle Exit Recorded</h2>
+
+            <p>Vehicle exit recorded successfully!</p>
+
+            <div class="slot-confirm-actions">
+
+                <button type="button" class="slot-confirm-button" id="exitConfirmAction">
+                    OK
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="../js/script.js"></script>
+
+    <script src="../js/vehicle-exit.js"></script>
+
+
+</body>
+
+</html>
