@@ -1,8 +1,8 @@
 // VEHICLES PAGE
 
 
-const VEHICLE_API_URL = "http://127.0.0.1:8000/vehicles/";
-const SLOT_API_URL = "http://127.0.0.1:8000/parking-slots/";
+const VEHICLE_API_URL = "https://parking-management-system-5zfc.onrender.com/vehicles/";
+const SLOT_API_URL = "https://parking-management-system-5zfc.onrender.com/parking-slots/";
 
 
 function showVehicleConfirmation(
