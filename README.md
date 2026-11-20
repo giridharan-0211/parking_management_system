@@ -2,7 +2,7 @@
 
 A full-stack web application for managing vehicle entries, exits, slot availability, and parking records through RESTful APIs and a responsive web interface.
 
-# LIVE PARKING MANAGEMENT SYSTEM
+## LIVE PARKING MANAGEMENT SYSTEM
 https://parking-management-system-1-q72b.onrender.com/
 
 ## Overview
